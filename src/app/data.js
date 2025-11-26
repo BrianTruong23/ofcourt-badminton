@@ -3,6 +3,7 @@ export const listings = [
     id: 1,
     title: "Astrox 99 Pro",
     series: "Astrox Series",
+    brand: "Yonex",
     price: "$260",
     specs: {
       weight: "4U (Ave.83g)",
@@ -20,6 +21,7 @@ export const listings = [
     id: 2,
     title: "Nanoray Z-Speed",
     series: "Nanoray Series",
+    brand: "Yonex",
     price: "$230",
     specs: {
       weight: "3U (Ave.88g)",
@@ -37,6 +39,7 @@ export const listings = [
     id: 3,
     title: "Arcsaber 11 Pro",
     series: "Arcsaber Series",
+    brand: "Victor",
     price: "$250",
     specs: {
       weight: "3U (Ave.88g)",
@@ -54,6 +57,7 @@ export const listings = [
     id: 4,
     title: "Duora Z-Strike",
     series: "Duora Series",
+    brand: "Li-Ning",
     price: "$245",
     specs: {
       weight: "3U (Ave.88g)",
@@ -71,6 +75,7 @@ export const listings = [
     id: 5,
     title: "Voltric Z-Force II",
     series: "Voltric Series",
+    brand: "FZ Forza",
     price: "$240",
     specs: {
       weight: "4U (Ave.83g)",
@@ -88,6 +93,7 @@ export const listings = [
     id: 6,
     title: "Astrox 88D Pro",
     series: "Astrox Series",
+    brand: "Apacs",
     price: "$255",
     specs: {
       weight: "4U (Ave.83g)",
@@ -105,6 +111,7 @@ export const listings = [
     id: 7,
     title: "Astrox 88S Pro",
     series: "Astrox Series",
+    brand: "Yonex",
     price: "$255",
     specs: {
       weight: "4U (Ave.83g)",
@@ -122,6 +129,7 @@ export const listings = [
     id: 8,
     title: "Nanoflare 800",
     series: "Nanoflare Series",
+    brand: "Victor",
     price: "$240",
     specs: {
       weight: "3U (Ave.88g)",
@@ -139,6 +147,7 @@ export const listings = [
     id: 9,
     title: "Arcsaber 7 Pro",
     series: "Arcsaber Series",
+    brand: "Li-Ning",
     price: "$220",
     specs: {
       weight: "4U (Ave.83g)",
@@ -156,6 +165,7 @@ export const listings = [
     id: 10,
     title: "Yonex Ax 100 ZZ",
     series: "Astrox Series",
+    brand: "Apacs",
     price: "$270",
     specs: {
       weight: "4U (Ave.83g)",
