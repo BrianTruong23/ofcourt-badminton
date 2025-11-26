@@ -1,15 +1,11 @@
 import Link from 'next/link';
+import HeroCarousel from '@/components/HeroCarousel';
 import styles from './page.module.css';
 
 export default function Home() {
   return (
     <main className={styles.main}>
-      <section className={styles.hero}>
-        <div className={styles.heroContent}>
-          <h1 className={styles.title}>Elevate Your Game</h1>
-          <p className={styles.subtitle}>Premium equipment for the dedicated player.</p>
-        </div>
-      </section>
+      <HeroCarousel />
 
       <section className={styles.mission}>
         <div className={styles.container}>
