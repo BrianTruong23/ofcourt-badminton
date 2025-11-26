@@ -1,12 +1,23 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
   const { cart } = useCart();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
   const cartCount = cart.length;
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/shop?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   return (
     <nav className={styles.navbar}>
@@ -17,7 +28,7 @@ export default function Navbar() {
         </Link>
 
         <div className={styles.searchContainer}>
-          <div className={styles.searchWrapper}>
+          <form onSubmit={handleSearch} className={styles.searchWrapper}>
             <svg className={styles.searchIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.35-4.35"></path>
@@ -26,8 +37,10 @@ export default function Navbar() {
               type="text" 
               placeholder="Search rackets, equipment..." 
               className={styles.searchInput}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
+          </form>
         </div>
 
         <div className={styles.actions}>
