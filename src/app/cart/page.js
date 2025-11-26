@@ -1,6 +1,6 @@
 'use client';
 
-import { useCart } from '@/context/CartContext';
+import { useCart } from '../../context/CartContext';
 import Link from 'next/link';
 import styles from './cart.module.css';
 import { useRouter } from 'next/navigation';
@@ -48,16 +48,18 @@ export default function CartPage() {
                     <h3 className={styles.itemName}>{item.title}</h3>
                     <span className={styles.itemPrice}>${item.totalPrice}</span>
                   </div>
-                  <div className={styles.customizations}>
-                    <span className={styles.customization}>String: {item.customization.string}</span>
-                    {item.customization.string !== 'Unstrung' && (
-                      <>
-                        <span className={styles.customization}>Tension: {item.customization.tension}</span>
-                        <span className={styles.customization}>String Color: {item.customization.stringColor}</span>
-                      </>
-                    )}
-                    <span className={styles.customization}>Grip: {item.customization.grip}</span>
-                  </div>
+                  {item.customization && (
+                    <div className={styles.customizations}>
+                      <span className={styles.customization}>String: {item.customization.string}</span>
+                      {item.customization.string !== 'Unstrung' && (
+                        <>
+                          <span className={styles.customization}>Tension: {item.customization.tension}</span>
+                          <span className={styles.customization}>String Color: {item.customization.stringColor}</span>
+                        </>
+                      )}
+                      <span className={styles.customization}>Grip: {item.customization.grip}</span>
+                    </div>
+                  )}
                   <button 
                     className={styles.removeBtn}
                     onClick={() => removeFromCart(item.cartId)}

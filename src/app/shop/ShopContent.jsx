@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { listings } from '../data';
-import ListingCard from '@/components/ListingCard';
+import ListingCard from '../../components/ListingCard';
 import styles from './shop.module.css';
 
 export default function ShopContent() {

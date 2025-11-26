@@ -1,24 +1,128 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect } from 'react';
+import { createClient } from '../lib/supabase/client';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const supabase = createClient();
 
-  // Load cart from local storage on mount
+  // Get user and load cart
   useEffect(() => {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
-    }
+    const initializeCart = async () => {
+      // Get current user
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+
+      if (user) {
+        // Load cart from Supabase for logged-in users
+        const { data, error } = await supabase
+          .from('user_carts')
+          .select('items')
+          .eq('user_id', user.id)
+          .single();
+
+        if (!error && data?.items) {
+          // Merge with any local cart items
+          const localCart = localStorage.getItem('cart');
+          if (localCart) {
+            const localItems = JSON.parse(localCart);
+            // Merge carts (avoid duplicates)
+            const mergedCart = [...data.items];
+            localItems.forEach(localItem => {
+              const exists = mergedCart.some(item => 
+                item.id === localItem.id && 
+                JSON.stringify(item.customization) === JSON.stringify(localItem.customization)
+              );
+              if (!exists) {
+                mergedCart.push(localItem);
+              }
+            });
+            setCart(mergedCart);
+            // Save merged cart back to Supabase
+            await supabase
+              .from('user_carts')
+              .upsert({ user_id: user.id, items: mergedCart });
+            // Clear local storage after merge
+            localStorage.removeItem('cart');
+          } else {
+            setCart(data.items);
+          }
+        } else {
+          // No cart in Supabase, check localStorage and migrate
+          const localCart = localStorage.getItem('cart');
+          if (localCart) {
+            const localItems = JSON.parse(localCart);
+            setCart(localItems);
+            // Save to Supabase
+            await supabase
+              .from('user_carts')
+              .upsert({ user_id: user.id, items: localItems });
+            localStorage.removeItem('cart');
+          }
+        }
+      } else {
+        // Guest user: load from localStorage
+        const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
+          setCart(JSON.parse(savedCart));
+        }
+      }
+      setLoading(false);
+    };
+
+    initializeCart();
+
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        // User logged in, load their cart from Supabase
+        const { data } = await supabase
+          .from('user_carts')
+          .select('items')
+          .eq('user_id', session.user.id)
+          .single();
+        
+        if (data?.items) {
+          setCart(data.items);
+        }
+      } else {
+        // User logged out, use localStorage
+        const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
+          setCart(JSON.parse(savedCart));
+        } else {
+          setCart([]);
+        }
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  // Save cart to local storage whenever it changes
+  // Save cart to Supabase or localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
+    if (loading) return; // Don't save during initial load
+
+    const saveCart = async () => {
+      if (user) {
+        // Save to Supabase for logged-in users
+        await supabase
+          .from('user_carts')
+          .upsert({ user_id: user.id, items: cart });
+      } else {
+        // Save to localStorage for guests
+        localStorage.setItem('cart', JSON.stringify(cart));
+      }
+    };
+
+    saveCart();
+  }, [cart, user, loading]);
 
   const addToCart = (item) => {
     setCart((prevCart) => [...prevCart, { ...item, cartId: Date.now() }]);

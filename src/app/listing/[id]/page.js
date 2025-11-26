@@ -1,6 +1,6 @@
 import { listings } from '../../data';
 import { notFound } from 'next/navigation';
-import ListingDetails from '@/components/ListingDetails';
+import ListingDetails from '../../../components/ListingDetails';
 
 // Generate static params for all listings
 export async function generateStaticParams() {

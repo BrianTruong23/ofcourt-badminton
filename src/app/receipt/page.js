@@ -152,8 +152,8 @@ export default function ReceiptPage() {
             ))}
           </div>
 
-          {/* Shipping Address */}
-          {orderData.shipping && (
+          {/* Delivery Information */}
+          {orderData.deliveryMethod && (
             <div style={{ marginBottom: '24px' }}>
               <h3 style={{
                 fontSize: '1.1rem',
@@ -161,7 +161,7 @@ export default function ReceiptPage() {
                 color: '#475569',
                 marginBottom: '16px'
               }}>
-                Shipping Address
+                {orderData.deliveryMethod === 'shipping' ? 'Shipping Address' : 'Pickup Information'}
               </h3>
               <div style={{
                 padding: '16px',
@@ -171,12 +171,34 @@ export default function ReceiptPage() {
                 color: '#0f172a',
                 lineHeight: '1.6'
               }}>
-                <div style={{ fontWeight: '600' }}>{orderData.shipping.fullName}</div>
-                <div>{orderData.shipping.address}</div>
-                <div>
-                  {orderData.shipping.city}, {orderData.shipping.state} {orderData.shipping.zipCode}
-                </div>
-                <div>{orderData.shipping.country}</div>
+                {orderData.deliveryMethod === 'shipping' && orderData.shipping ? (
+                  <>
+                    <div style={{ fontWeight: '600' }}>{orderData.shipping.fullName}</div>
+                    <div>{orderData.shipping.address}</div>
+                    <div>
+                      {orderData.shipping.city}, {orderData.shipping.state} {orderData.shipping.zipCode}
+                    </div>
+                    <div>{orderData.shipping.country}</div>
+                  </>
+                ) : orderData.deliveryMethod === 'pickup' && orderData.pickup ? (
+                  <>
+                    <div style={{ fontWeight: '600' }}>{orderData.pickup.fullName}</div>
+                    <div style={{ marginTop: '8px' }}>
+                      <strong>Phone:</strong> {orderData.pickup.phoneNumber}
+                    </div>
+                    <div style={{
+                      marginTop: '12px',
+                      padding: '8px',
+                      background: '#fef3c7',
+                      border: '1px solid #fbbf24',
+                      borderRadius: '4px',
+                      color: '#92400e',
+                      fontSize: '0.85rem'
+                    }}>
+                      📍 Pickup Location: Florida - We'll call you when ready
+                    </div>
+                  </>
+                ) : null}
               </div>
             </div>
           )}
