@@ -122,6 +122,43 @@
   padding: 0 4px;
 }
 
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  overflow: hidden;
+}
+
+.userAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logoutButton {
+  color: #ef4444 !important;
+}
+
+.logoutButton:hover {
+  background: #fee !important;
+  color: #dc2626 !important;
+}
+
+
+
 @media (max-width: 768px) {
   .container {
     gap: 16px;

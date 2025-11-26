@@ -1,6 +1,6 @@
 import { listings } from '../../data';
 import { notFound } from 'next/navigation';
-import CustomizeForm from '@/components/CustomizeForm';
+import CustomizeForm from '../../../components/CustomizeForm';
 
 // Generate static params for all listings
 export async function generateStaticParams() {
