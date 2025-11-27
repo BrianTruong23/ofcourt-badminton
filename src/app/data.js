@@ -85,7 +85,7 @@ export const listings = [
       frame: "HM Graphite / Sound Filter / NANOMETRIC / Tungsten",
       shaft: "HM Graphite / EX-HMG / NANOMETRIC"
     },
-    description: "The thinnest shaft in Yonex history and the TRI-VOLTAGE SYSTEM combine to increase smash energy. This racket provides incredible power and fast racket handling.",
+    description: "Features an ultra-thin shaft and the TRI-VOLTAGE SYSTEM that combine to increase smash energy. This racket provides incredible power and fast racket handling for aggressive players.",
     technologies: ["Tri-Voltage System", "Sound Filter", "Nanometric", "Compact Frame"],
     color: "#4B0082"
   },
