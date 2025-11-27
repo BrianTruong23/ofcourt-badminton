@@ -124,6 +124,28 @@ export default function CheckoutPage() {
     const details = await response.json();
     
     if (details.status === 'COMPLETED') {
+      // Save order to Supabase
+      try {
+        const createOrderResponse = await fetch('/api/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            customer_email: email,
+            customer_name: deliveryMethod === 'shipping' ? shippingInfo.fullName : pickupInfo.fullName,
+            total_price: orderTotal,
+            items: cart
+          }),
+        });
+        
+        if (!createOrderResponse.ok) {
+          console.error('Failed to save order to database');
+          // We don't block the user flow here since payment succeeded, 
+          // but in a real app we'd want robust error handling/retries
+        }
+      } catch (err) {
+        console.error('Error saving order:', err);
+      }
+
       const orderData = {
         orderID: data.orderID,
         email: email,

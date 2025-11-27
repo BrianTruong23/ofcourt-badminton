@@ -39,9 +39,14 @@ export default function Navbar() {
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/');
-    router.refresh();
+    try {
+      await supabase.auth.signOut();
+      setUser(null); // Immediate UI update
+      router.push('/');
+      router.refresh(); // Refresh server components
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
   };
 
   return (

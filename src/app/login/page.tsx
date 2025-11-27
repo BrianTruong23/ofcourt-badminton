@@ -9,8 +9,11 @@ export default function LoginPage() {
   const [mode, setMode] = useState<'signin' | 'signup'>('signin')
   const [email, setEmail] = useState('demo@ofcourt.com')
   const [password, setPassword] = useState('Demo123!')
+  const [fullName, setFullName] = useState('')
   const [loading, setLoading] = useState(false)
+
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const router = useRouter()
   const supabase = createClient()
 
@@ -44,14 +47,24 @@ export default function LoginPage() {
         setError(error.message)
         setLoading(false)
       } else {
-        router.push('/')
-        router.refresh()
+        setSuccess('Login successful! Redirecting...')
+        // Short delay to show success message before redirect
+        setTimeout(() => {
+          router.push('/')
+          router.refresh()
+        }, 1500)
       }
     } else {
       // Sign up
       const { error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            full_name: fullName,
+            store_id: '2a066c2d-5226-4ac1-afa1-fe88a9bd31d2',
+          },
+        },
       })
 
       if (error) {
@@ -59,8 +72,7 @@ export default function LoginPage() {
         setLoading(false)
       } else {
         setError('')
-        // Show success message
-        alert('Account created! Please check your email to confirm your account.')
+        setSuccess('Account created successfully! Please check your email to confirm your account.')
         setMode('signin')
         setLoading(false)
       }
@@ -93,6 +105,7 @@ export default function LoginPage() {
         </p>
 
         {error && <div className={styles.error}>{error}</div>}
+        {success && <div className={styles.success}>{success}</div>}
 
         <button
           onClick={handleGoogleAuth}
@@ -113,6 +126,21 @@ export default function LoginPage() {
         </div>
 
         <form onSubmit={handleEmailAuth} className={styles.form}>
+          {mode === 'signup' && (
+            <div className={styles.inputGroup}>
+              <label htmlFor="fullName">Full Name</label>
+              <input
+                id="fullName"
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                disabled={loading}
+                placeholder="John Doe"
+              />
+            </div>
+          )}
+
           <div className={styles.inputGroup}>
             <label htmlFor="email">Email</label>
             <input

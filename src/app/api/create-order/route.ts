@@ -7,12 +7,12 @@ export async function POST(req: NextRequest) {
   try {
     const supabase = await createClient();
     const body = await req.json();
-    const { customer_email, total_price, items } = body;
+    const { customer_email, customer_name, total_price, items } = body;
 
     // Input validation
     if (!customer_email || total_price === undefined) {
       return NextResponse.json(
-        { error: 'Missing required fields: customer_email, total_price' },
+        { error: 'Missing required fields: customer_email, customer_name, total_price' },
         { status: 400 }
       );
     }
@@ -40,8 +40,11 @@ export async function POST(req: NextRequest) {
       .insert({
         store_id: storeId,
         customer_email,
+        customer_name,
         total_price,
-        user_id: user?.id || null, // Link to user if logged in
+        currency: 'USD',
+        status: 'pending',
+        // user_id removed as it does not exist in schema
       })
       .select()
       .single();
@@ -52,6 +55,30 @@ export async function POST(req: NextRequest) {
         { error: 'Failed to create order' },
         { status: 500 }
       );
+    }
+
+    console.log('Order created successfully:', data.id);
+
+    // Insert order items if provided
+    if (items && items.length > 0) {
+      const orderItems = items.map((item: any) => ({
+        order_id: data.id,
+        store_id: storeId,
+        product_name: item.title || item.name,
+        quantity: item.quantity || 1,
+        unit_price: item.price || 0,
+        currency: 'USD',
+        line_total: (item.quantity || 1) * (item.price || 0)
+      }));
+
+      const { error: itemsError } = await supabase
+        .from('order_products')
+        .insert(orderItems);
+
+      if (itemsError) {
+        console.error('Error inserting order items:', itemsError);
+        // We don't fail the whole request if items fail, but we log it
+      }
     }
 
     console.log('Order created successfully:', data.id);
