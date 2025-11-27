@@ -14,7 +14,9 @@ CREATE TABLE IF NOT EXISTS public.appointments (
   notes text,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  client_id uuid,
   CONSTRAINT appointments_pkey PRIMARY KEY (id),
+  CONSTRAINT appointments_client_id_fkey FOREIGN KEY (client_id) REFERENCES public.clients(id),
   CONSTRAINT appointments_store_id_fkey FOREIGN KEY (store_id) REFERENCES public.stores(id)
 );
 
@@ -27,8 +29,8 @@ CREATE TABLE IF NOT EXISTS public.stores (
   category text,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   last_active timestamp with time zone,
-  CONSTRAINT stores_pkey PRIMARY KEY (id)
-  -- CONSTRAINT stores_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES public.service_users(id) -- Circular dependency if service_users not created yet
+  CONSTRAINT stores_pkey PRIMARY KEY (id),
+  CONSTRAINT stores_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES public.service_users(id)
 );
 
 CREATE TABLE IF NOT EXISTS public.orders (
@@ -62,18 +64,33 @@ CREATE TABLE IF NOT EXISTS public.order_products (
 
 CREATE TABLE IF NOT EXISTS public.service_users (
   id uuid NOT NULL,
-  email text NOT NULL,
   role text NOT NULL,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
-  store_id uuid,
-  name text, -- Added name field
   CONSTRAINT service_users_pkey PRIMARY KEY (id),
-  CONSTRAINT service_users_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id),
-  CONSTRAINT service_users_store_id_fkey FOREIGN KEY (store_id) REFERENCES public.stores(id)
+  CONSTRAINT service_users_id_fkey FOREIGN KEY (id) REFERENCES auth.users(id)
 );
 
--- Add foreign key for stores.owner_id now that service_users exists
--- ALTER TABLE public.stores ADD CONSTRAINT stores_owner_id_fkey FOREIGN KEY (owner_id) REFERENCES public.service_users(id);
+CREATE TABLE IF NOT EXISTS public.clients (
+  id uuid NOT NULL,
+  store_id uuid,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  email text,
+  name text,
+  role text,
+  CONSTRAINT clients_pkey PRIMARY KEY (id),
+  CONSTRAINT clients_id_fkey FOREIGN KEY (id) REFERENCES public.service_users(id),
+  CONSTRAINT clients_store_id_fkey FOREIGN KEY (store_id) REFERENCES public.stores(id)
+);
+
+CREATE TABLE IF NOT EXISTS public.owners (
+  id uuid NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  email text,
+  name text,
+  role text,
+  CONSTRAINT owners_pkey PRIMARY KEY (id),
+  CONSTRAINT owners_id_fkey FOREIGN KEY (id) REFERENCES public.service_users(id)
+);
 
 CREATE TABLE IF NOT EXISTS public.store_stats (
   store_id uuid NOT NULL,
@@ -92,12 +109,12 @@ CREATE TABLE IF NOT EXISTS public.user_carts (
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
   CONSTRAINT user_carts_pkey PRIMARY KEY (id),
-  CONSTRAINT user_carts_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
+  CONSTRAINT user_carts_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.clients(id)
 );
 
 CREATE TABLE IF NOT EXISTS public.website_builder_subscriptions (
   id uuid NOT NULL DEFAULT gen_random_uuid(),
-  owner_id uuid NOT NULL UNIQUE, -- Added UNIQUE constraint
+  owner_id uuid NOT NULL UNIQUE,
   plan_name text NOT NULL,
   plan_interval text NOT NULL DEFAULT 'monthly'::text,
   plan_price numeric NOT NULL,
