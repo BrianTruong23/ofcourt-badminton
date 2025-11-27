@@ -89,13 +89,13 @@ export default function Navbar() {
                     <line x1="21" y1="12" x2="9" y2="12"></line>
                   </svg>
                 </button>
-                <div className={styles.userAvatar} title={user.email}>
+                <Link href="/account" className={styles.userAvatar} title={user.email}>
                   {user.user_metadata?.avatar_url ? (
                     <img src={user.user_metadata.avatar_url} alt="User" />
                   ) : (
                     user.email?.[0]?.toUpperCase() || 'U'
                   )}
-                </div>
+                </Link>
               </div>
             ) : (
               <Link href="/login" className={styles.actionButton} title="Login">

@@ -1,11 +1,16 @@
 
+import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '../../../lib/supabase/server';
 import { getStoreId } from '../../../lib/store';
 
 export async function POST(req: NextRequest) {
   try {
-    const supabase = await createClient();
+    // Use Service Role Key to bypass RLS
+    const supabaseAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!
+    );
+
     const body = await req.json();
     const { customer_email, customer_name, total_price, items } = body;
 
@@ -18,24 +23,21 @@ export async function POST(req: NextRequest) {
     }
 
     // Identify store
-    const storeSlug = 'badminton';
-    const storeId = await getStoreId(storeSlug);
+    // User provided specific store ID: 6aab4a51-0d89-47ee-b853-2f29dca2d480
+    const storeId = '6aab4a51-0d89-47ee-b853-2f29dca2d480';
 
     if (!storeId) {
-      console.error(`Store not found for slug: ${storeSlug}`);
+      console.error(`Store ID not configured`);
       return NextResponse.json(
         { error: 'Store configuration error' },
         { status: 500 }
       );
     }
 
-    console.log(`Creating order for store: ${storeSlug} (ID: ${storeId})`);
+    console.log(`Creating order for store ID: ${storeId}`);
 
-    // Get user if logged in
-    const { data: { user } } = await supabase.auth.getUser();
-
-    // Insert order
-    const { data, error } = await supabase
+    // Insert order using admin client
+    const { data, error } = await supabaseAdmin
       .from('orders')
       .insert({
         store_id: storeId,
@@ -43,8 +45,7 @@ export async function POST(req: NextRequest) {
         customer_name,
         total_price,
         currency: 'USD',
-        status: 'pending',
-        // user_id removed as it does not exist in schema
+        status: 'paid', // Mark as paid since this is called after PayPal success
       })
       .select()
       .single();
@@ -52,7 +53,7 @@ export async function POST(req: NextRequest) {
     if (error) {
       console.error('Error inserting order:', error);
       return NextResponse.json(
-        { error: 'Failed to create order' },
+        { error: 'Failed to create order', details: error },
         { status: 500 }
       );
     }
@@ -61,23 +62,36 @@ export async function POST(req: NextRequest) {
 
     // Insert order items if provided
     if (items && items.length > 0) {
-      const orderItems = items.map((item: any) => ({
-        order_id: data.id,
-        store_id: storeId,
-        product_name: item.title || item.name,
-        quantity: item.quantity || 1,
-        unit_price: item.price || 0,
-        currency: 'USD',
-        line_total: (item.quantity || 1) * (item.price || 0)
-      }));
+      const orderItems = items.map((item: any) => {
+        // Use totalPrice if available (includes customization), otherwise parse price string
+        const price = item.totalPrice || (typeof item.price === 'string' 
+          ? parseFloat(item.price.replace(/[^0-9.]/g, '')) 
+          : (item.price || 0));
+        
+        const quantity = item.quantity || 1;
 
-      const { error: itemsError } = await supabase
+        return {
+          order_id: data.id,
+          store_id: storeId,
+          product_name: item.title || item.name,
+          quantity: quantity,
+          unit_price: price,
+          currency: 'USD'
+        };
+      });
+
+      const { error: itemsError } = await supabaseAdmin
         .from('order_products')
         .insert(orderItems);
 
       if (itemsError) {
         console.error('Error inserting order items:', itemsError);
-        // We don't fail the whole request if items fail, but we log it
+        // Return error details for debugging
+        return NextResponse.json({ 
+          success: true, 
+          order: data,
+          itemsError: itemsError 
+        }, { status: 201 });
       }
     }
 
@@ -87,7 +101,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error('Unexpected error in create-order:', err);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: err },
       { status: 500 }
     );
   }

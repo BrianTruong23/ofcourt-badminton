@@ -11,7 +11,7 @@ const slides = [
     subtitle: 'Premium badminton equipment for enthusiasts',
     buttonText: 'Shop Rackets',
     buttonLink: '/shop',
-    backgroundColor: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    image: '/images/court1.png',
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const slides = [
     subtitle: 'Tournament-grade rackets trusted by professionals',
     buttonText: 'Explore Collection',
     buttonLink: '/shop',
-    backgroundColor: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+    image: '/images/court2.png',
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ const slides = [
     subtitle: 'Advanced technology for ultimate control and power',
     buttonText: 'Discover More',
     buttonLink: '/shop',
-    backgroundColor: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    image: '/images/court3.png',
   },
 ];
 
@@ -64,7 +64,11 @@ export default function HeroCarousel() {
           >
             <div
               className={styles.slideBackground}
-              style={{ background: slide.backgroundColor }}
+              style={{ 
+                backgroundImage: `url(${slide.image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
             ></div>
             <div className={styles.overlay}></div>
             <div className={styles.slideContent}>

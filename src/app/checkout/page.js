@@ -4,6 +4,7 @@ import { useCart } from '../../context/CartContext';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { createClient } from '../../lib/supabase/client';
 import styles from '../cart/cart.module.css';
 
 const SHIPPING_COST = 10;
@@ -13,8 +14,21 @@ export default function CheckoutPage() {
   const router = useRouter();
   
   // Contact Information
+  const [user, setUser] = useState(null);
   const [email, setEmail] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUser(user);
+        setEmail(user.email);
+      }
+    };
+    fetchUser();
+  }, []);
   
   // Delivery Method
   const [deliveryMethod, setDeliveryMethod] = useState('shipping'); // 'shipping' or 'pickup'
@@ -40,11 +54,14 @@ export default function CheckoutPage() {
   const shippingCost = deliveryMethod === 'shipping' ? 10 : 0;
   const orderTotal = cartTotal + shippingCost;
 
+  // Success State
+  const [isOrderPlaced, setIsOrderPlaced] = useState(false);
+
   useEffect(() => {
-    if (cart.length === 0) {
+    if (cart.length === 0 && !isOrderPlaced) {
       router.push('/cart');
     }
-  }, [cart, router]);
+  }, [cart, router, isOrderPlaced]);
 
   useEffect(() => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -68,7 +85,7 @@ export default function CheckoutPage() {
     setIsPickupValid(valid);
   }, [pickupInfo]);
 
-  if (cart.length === 0) {
+  if (cart.length === 0 && !isOrderPlaced) {
     return null;
   }
 
@@ -115,6 +132,11 @@ export default function CheckoutPage() {
     }
   };
 
+  const onError = (err) => {
+    console.error('PayPal error:', err);
+    alert('Payment failed. Please try again.');
+  };
+
   const onApprove = async (data) => {
     const response = await fetch('/api/paypal/capture-order', {
       method: 'POST',
@@ -124,23 +146,30 @@ export default function CheckoutPage() {
     const details = await response.json();
     
     if (details.status === 'COMPLETED') {
-      // Save order to Supabase
+      // Show success UI immediately
+      setIsOrderPlaced(true);
+      console.log('Payment Successful!', details);
+
+      // Save order to Supabase (background process)
       try {
         const createOrderResponse = await fetch('/api/create-order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            customer_email: email,
-            customer_name: deliveryMethod === 'shipping' ? shippingInfo.fullName : pickupInfo.fullName,
+            customer_email: user ? user.email : email,
+            customer_name: user?.user_metadata?.full_name || user?.user_metadata?.name || (deliveryMethod === 'shipping' ? shippingInfo.fullName : pickupInfo.fullName),
             total_price: orderTotal,
             items: cart
           }),
         });
         
         if (!createOrderResponse.ok) {
-          console.error('Failed to save order to database');
-          // We don't block the user flow here since payment succeeded, 
-          // but in a real app we'd want robust error handling/retries
+          const text = await createOrderResponse.text().catch(() => '');
+          console.error('Failed to save order to database', {
+            status: createOrderResponse.status,
+            statusText: createOrderResponse.statusText,
+            body: text,
+          });
         }
       } catch (err) {
         console.error('Error saving order:', err);
@@ -162,29 +191,21 @@ export default function CheckoutPage() {
       localStorage.setItem('lastOrder', JSON.stringify(orderData));
       
       clearCart();
-      router.push('/receipt');
+      // Redirect after a short delay to let user see the success message
+      setTimeout(() => {
+        router.push('/receipt');
+      }, 2000);
     }
   };
 
-  const onError = (err) => {
-    console.error('PayPal error:', err);
-    alert('Payment failed. Please try again.');
-  };
-
-  if (!process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID) {
+  if (isOrderPlaced) {
     return (
       <main className={styles.main}>
-        <header className={styles.header}>
-          <div className={styles.container}>
-            <h1 className={styles.title}>Checkout</h1>
-          </div>
-        </header>
-        <div className={styles.container}>
-          <div className={styles.emptyCart} style={{ padding: '80px 0' }}>
-            <h2 style={{ marginBottom: '16px', color: '#0f172a' }}>PayPal Not Configured</h2>
-            <p style={{ color: '#64748b', marginBottom: '24px' }}>
-              Please add your PayPal Client ID to <code style={{ background: '#f1f5f9', padding: '2px 8px', borderRadius: '4px' }}>.env.local</code> to enable payments.
-            </p>
+        <div className={styles.container} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+          <div style={{ textAlign: 'center', padding: '40px', background: 'white', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
+            <div style={{ fontSize: '4rem', marginBottom: '16px' }}>🎉</div>
+            <h1 style={{ fontSize: '2rem', marginBottom: '16px', color: '#0f172a' }}>Order Submitted!</h1>
+            <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Thank you for your purchase. Redirecting to receipt...</p>
           </div>
         </div>
       </main>
@@ -209,6 +230,7 @@ export default function CheckoutPage() {
 
   return (
     <main className={styles.main}>
+      {/* ... existing JSX ... */}
       <header className={styles.header}>
         <div className={styles.container}>
           <h1 className={styles.title}>Checkout</h1>
@@ -225,15 +247,28 @@ export default function CheckoutPage() {
                 <label htmlFor="email" style={labelStyle}>
                   Email Address *
                 </label>
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your.email@example.com"
-                  required
-                  style={inputStyle}
-                />
+                {user ? (
+                  <div style={{ 
+                    padding: '12px', 
+                    background: '#f1f5f9', 
+                    border: '1px solid #cbd5e1', 
+                    borderRadius: '8px',
+                    color: '#475569',
+                    fontSize: '1rem'
+                  }}>
+                    {user.email}
+                  </div>
+                ) : (
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="your.email@example.com"
+                    required
+                    style={inputStyle}
+                  />
+                )}
                 <p style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '8px' }}>
                   Order confirmation will be sent to this email
                 </p>
