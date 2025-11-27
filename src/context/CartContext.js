@@ -2,22 +2,19 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import { createClient } from '../lib/supabase/client';
+import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
-  const [user, setUser] = useState(null);
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
 
-  // Get user and load cart
+  // Load cart based on user state
   useEffect(() => {
-    const initializeCart = async () => {
-      // Get current user
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-
+    const loadCart = async () => {
       if (user) {
         // Load cart from Supabase for logged-in users
         const { data, error } = await supabase
@@ -75,35 +72,8 @@ export function CartProvider({ children }) {
       setLoading(false);
     };
 
-    initializeCart();
-
-    // Listen for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        // User logged in, load their cart from Supabase
-        const { data } = await supabase
-          .from('user_carts')
-          .select('items')
-          .eq('user_id', session.user.id)
-          .single();
-        
-        if (data?.items) {
-          setCart(data.items);
-        }
-      } else {
-        // User logged out, use localStorage
-        const savedCart = localStorage.getItem('cart');
-        if (savedCart) {
-          setCart(JSON.parse(savedCart));
-        } else {
-          setCart([]);
-        }
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
+    loadCart();
+  }, [user]); // React to user changes from AuthContext
 
   // Save cart to Supabase or localStorage whenever it changes
   useEffect(() => {

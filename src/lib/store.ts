@@ -1,8 +1,9 @@
 
-import { supabase } from './supabaseClient';
+import { createClient } from './supabase/client';
 
 export async function getStoreId(slug: string): Promise<string | null> {
   try {
+    const supabase = createClient();
     const { data, error } = await supabase
       .from('stores')
       .select('id')

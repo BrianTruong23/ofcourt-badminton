@@ -4,32 +4,15 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
-import { createClient } from '../lib/supabase/client';
+import { useAuth } from '../context/AuthContext';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
   const { cart } = useCart();
+  const { user, loading, signOut } = useAuth();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const cartCount = cart.length;
-  const supabase = createClient();
-
-  useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-      setLoading(false);
-    };
-    getUser();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -40,10 +23,9 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     try {
-      await supabase.auth.signOut();
-      setUser(null); // Immediate UI update
+      await signOut();
       router.push('/');
-      router.refresh(); // Refresh server components
+      router.refresh();
     } catch (error) {
       console.error('Error logging out:', error);
     }
