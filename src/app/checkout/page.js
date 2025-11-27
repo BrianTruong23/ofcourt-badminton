@@ -4,7 +4,7 @@ import { useCart } from '../../context/CartContext';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
-import { createClient } from '../../lib/supabase/client';
+import { useAuth } from '../../context/AuthContext';
 import styles from '../cart/cart.module.css';
 
 const SHIPPING_COST = 10;
@@ -12,23 +12,18 @@ const SHIPPING_COST = 10;
 export default function CheckoutPage() {
   const { cart, cartTotal, clearCart } = useCart();
   const router = useRouter();
+  const { user } = useAuth();
   
   // Contact Information
-  const [user, setUser] = useState(null);
   const [email, setEmail] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
 
+  // Pre-fill email if user is logged in
   useEffect(() => {
-    const fetchUser = async () => {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setUser(user);
-        setEmail(user.email);
-      }
-    };
-    fetchUser();
-  }, []);
+    if (user) {
+      setEmail(user.email);
+    }
+  }, [user]);
   
   // Delivery Method
   const [deliveryMethod, setDeliveryMethod] = useState('shipping'); // 'shipping' or 'pickup'
