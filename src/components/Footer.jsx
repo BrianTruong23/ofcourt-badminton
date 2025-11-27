@@ -23,18 +23,17 @@ export default function Footer() {
           <div className={styles.section}>
             <h3>My Account</h3>
             <div className={styles.links}>
-              <Link href="#" className={styles.link}>Sign In</Link>
-              <Link href="#" className={styles.link}>Create Account</Link>
-              <Link href="#" className={styles.link}>Order History</Link>
+              <Link href="/login" className={styles.link}>Sign In</Link>
+              <Link href="/login" className={styles.link}>Create Account</Link>
+              <Link href="/orders" className={styles.link}>Order History</Link>
             </div>
           </div>
 
           <div className={styles.section}>
             <h3>Customer Service</h3>
             <div className={styles.links}>
-              <Link href="#" className={styles.link}>Track Order</Link>
-              <Link href="#" className={styles.link}>Shipping Info</Link>
-              <Link href="#" className={styles.link}>Returns</Link>
+              <Link href="/track-order" className={styles.link}>Track Order</Link>
+              <Link href="/shipping" className={styles.link}>Shipping Info</Link>
             </div>
           </div>
         </div>
