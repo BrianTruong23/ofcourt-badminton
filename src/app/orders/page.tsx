@@ -11,24 +11,23 @@ export default async function OrdersPage() {
     redirect('/login')
   }
 
-  // 1. Get the store_id associated with the user (where role is 'client')
-  const { data: serviceUser } = await supabase
-    .from('service_users')
+  // 1. Get the store_id associated with the user (from clients table)
+  const { data: clientData } = await supabase
+    .from('clients')
     .select('store_id')
-    .eq('id', user.id) // service_users.id references auth.users.id
-    .eq('role', 'client')
+    .eq('id', user.id) // clients.id references service_users.id which references auth.users.id
     .single()
 
   let orders = []
   let error = null
 
-  if (serviceUser?.store_id) {
+  if (clientData?.store_id) {
     // 2. Fetch orders for this user (by email) and store
     const result = await supabase
       .from('orders')
       .select('*')
       .eq('customer_email', user.email)
-      .eq('store_id', serviceUser.store_id)
+      .eq('store_id', clientData.store_id)
       .order('created_at', { ascending: false })
     
     orders = result.data
