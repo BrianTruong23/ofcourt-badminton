@@ -11,12 +11,42 @@ export default async function OrdersPage() {
     redirect('/login')
   }
 
-  // Fetch user's orders
-  const { data: orders, error } = await supabase
-    .from('orders')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
+  // 1. Get the store_id associated with the user (where role is 'client')
+  const { data: serviceUser } = await supabase
+    .from('service_users')
+    .select('store_id')
+    .eq('id', user.id) // service_users.id references auth.users.id
+    .eq('role', 'client')
+    .single()
+
+  let orders = []
+  let error = null
+
+  if (serviceUser?.store_id) {
+    // 2. Fetch orders for this user (by email) and store
+    const result = await supabase
+      .from('orders')
+      .select('*')
+      .eq('customer_email', user.email)
+      .eq('store_id', serviceUser.store_id)
+      .order('created_at', { ascending: false })
+    
+    orders = result.data
+    error = result.error
+  } else {
+    // Fallback: just fetch by email if no service_user record found (e.g. guest checkout previously)
+    // OR maybe we shouldn't show anything? The requirement was specific about linking via service_users.
+    // Let's try fetching by email only as a fallback, but maybe log a warning.
+    // Actually, the user said "Orders that has store_id that links to store_id of the service_users where the role is client."
+    // This implies strict filtering.
+    // However, for a better UX, if I bought something as a guest and then logged in, I might expect to see it.
+    // But let's stick to the strict requirement first to fix the error.
+    
+    // If no service user record, we can't determine the "correct" store context as per requirement.
+    // But we can try to find orders by email anyway, assuming the user might have orders from ANY store?
+    // Let's stick to the requirement: link via service_users.
+    console.log('No service_user record found for user:', user.id)
+  }
 
   // Handle case where orders table might not have been queried properly
   const ordersList = orders || []
