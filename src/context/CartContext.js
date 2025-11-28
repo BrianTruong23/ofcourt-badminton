@@ -30,20 +30,25 @@ export function CartProvider({ children }) {
             const localItems = JSON.parse(localCart);
             // Merge carts (avoid duplicates)
             const mergedCart = [...data.items];
-            localItems.forEach(localItem => {
-              const exists = mergedCart.some(item => 
-                item.id === localItem.id && 
-                JSON.stringify(item.customization) === JSON.stringify(localItem.customization)
+            localItems.forEach((localItem) => {
+              const exists = mergedCart.some(
+                (item) =>
+                  item.id === localItem.id &&
+                  JSON.stringify(item.customization) ===
+                    JSON.stringify(localItem.customization)
               );
               if (!exists) {
                 mergedCart.push(localItem);
               }
             });
             setCart(mergedCart);
-            // Save merged cart back to Supabase
+            // Save merged cart back to Supabase (one row per user_id)
             await supabase
               .from('user_carts')
-              .upsert({ user_id: user.id, items: mergedCart });
+              .upsert(
+                { user_id: user.id, items: mergedCart },
+                { onConflict: 'user_id' }
+              );
             // Clear local storage after merge
             localStorage.removeItem('cart');
           } else {
@@ -55,10 +60,13 @@ export function CartProvider({ children }) {
           if (localCart) {
             const localItems = JSON.parse(localCart);
             setCart(localItems);
-            // Save to Supabase
+            // Save to Supabase (one row per user_id)
             await supabase
               .from('user_carts')
-              .upsert({ user_id: user.id, items: localItems });
+              .upsert(
+                { user_id: user.id, items: localItems },
+                { onConflict: 'user_id' }
+              );
             localStorage.removeItem('cart');
           }
         }
@@ -73,7 +81,7 @@ export function CartProvider({ children }) {
     };
 
     loadCart();
-  }, [user]); // React to user changes from AuthContext
+  }, [user, supabase]);
 
   // Save cart to Supabase or localStorage whenever it changes
   useEffect(() => {
@@ -81,10 +89,13 @@ export function CartProvider({ children }) {
 
     const saveCart = async () => {
       if (user) {
-        // Save to Supabase for logged-in users
+        // Save to Supabase for logged-in users (one row per user_id)
         await supabase
           .from('user_carts')
-          .upsert({ user_id: user.id, items: cart });
+          .upsert(
+            { user_id: user.id, items: cart },
+            { onConflict: 'user_id' }
+          );
       } else {
         // Save to localStorage for guests
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -92,7 +103,7 @@ export function CartProvider({ children }) {
     };
 
     saveCart();
-  }, [cart, user, loading]);
+  }, [cart, user, loading, supabase]);
 
   const addToCart = (item) => {
     setCart((prevCart) => [...prevCart, { ...item, cartId: Date.now() }]);
@@ -106,10 +117,15 @@ export function CartProvider({ children }) {
     setCart([]);
   };
 
-  const cartTotal = cart.reduce((total, item) => total + item.totalPrice, 0);
+  const cartTotal = cart.reduce(
+    (total, item) => total + (item.totalPrice || 0),
+    0
+  );
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, cartTotal }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, clearCart, cartTotal }}
+    >
       {children}
     </CartContext.Provider>
   );
