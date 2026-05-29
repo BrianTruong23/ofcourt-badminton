@@ -1,11 +1,95 @@
 :root {
-  --primary: #2563eb;
-  --primary-dark: #1d4ed8;
-  --secondary: #10b981;
-  --background: #f8fafc;
-  --text: #1e293b;
-  --text-light: #64748b;
+  /* ===== Brand palette: warm, premium badminton ecommerce ===== */
+  --navy: #102A43;
+  --navy-800: #16395a;
+  --navy-700: #1f4a72;
+  --navy-600: #2c5d8a;
+  --navy-soft: rgba(16, 42, 67, 0.06);
+
+  --cream: #F7F3EA;
+  --cream-deep: #EFE8D8;
+  --cream-card: #FCFAF4;
+
+  --charcoal: #1F2933;
+  --text: #1F2933;
+  --text-soft: #3E4C59;
+  --text-muted: #616E7C;
+  --text-faint: #8A94A0;
+
+  --green: #6F8F72;
+  --green-dark: #5A7A5D;
+  --green-soft: rgba(111, 143, 114, 0.14);
+
+  --orange: #D97706;
+  --orange-dark: #B45309;
+  --orange-soft: rgba(217, 119, 6, 0.12);
+
+  --gold: #D9A406;
+
+  --border: #E7DFCD;
+  --border-strong: #D8CDB5;
+  --border-navy: rgba(16, 42, 67, 0.12);
+
   --white: #ffffff;
+
+  /* Surfaces */
+  --bg: var(--cream);
+  --bg-elevated: var(--cream-deep);
+  --surface: var(--white);
+  --surface-muted: var(--cream-card);
+  --bg-card: var(--white);
+  --bg-card-hover: var(--cream-card);
+
+  /* ===== Radii ===== */
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 30px;
+  --radius-pill: 999px;
+
+  /* ===== Soft, warm shadows ===== */
+  --shadow-xs: 0 1px 2px rgba(16, 42, 67, 0.05);
+  --shadow-sm: 0 1px 3px rgba(16, 42, 67, 0.06), 0 4px 12px rgba(16, 42, 67, 0.04);
+  --shadow-md: 0 10px 30px rgba(16, 42, 67, 0.08);
+  --shadow-lg: 0 24px 60px rgba(16, 42, 67, 0.12);
+
+  --maxw: 1180px;
+
+  /* ===== Legacy aliases (keep older pages on-palette) ===== */
+  --ink: var(--text);
+  --ink-soft: var(--text-soft);
+  --ink-muted: var(--text-muted);
+  --ink-faint: var(--text-faint);
+  --cream-warm: var(--cream-deep);
+  --brand: var(--navy);
+  --brand-dark: var(--charcoal);
+  --brand-light: var(--navy-600);
+  --brand-soft: var(--navy-soft);
+  --primary: var(--navy);
+  --primary-dark: var(--charcoal);
+  --secondary: var(--green);
+  --background: var(--cream);
+  --text-light: var(--text-muted);
+  --graphite-950: #0d2236;
+  --graphite-900: var(--navy);
+  --graphite-800: var(--navy-800);
+  --graphite-700: var(--text-soft);
+  --graphite-600: var(--text-muted);
+  --emerald-700: var(--green-dark);
+  --emerald-600: var(--green-dark);
+  --emerald-500: var(--green);
+  --emerald-400: var(--green);
+  --lime: var(--green);
+  --accent-violet: var(--green-dark);
+  --accent-violet-light: var(--green);
+  --accent-violet-soft: var(--green-soft);
+  --accent-cyan: var(--navy-600);
+  --accent-cyan-soft: var(--navy-soft);
+  --accent-lime: var(--green);
+  --accent-lime-soft: var(--green-soft);
+  --accent-pink: var(--orange);
+  --shadow-glow: var(--shadow-md);
 }
 
 * {
@@ -14,15 +98,28 @@
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-color: var(--background);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--cream);
   color: var(--text);
-  line-height: 1.5;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display), Georgia, 'Times New Roman', serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+  line-height: 1.12;
 }
 
 a {
@@ -32,4 +129,33 @@ a {
 
 button {
   font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: var(--green-soft);
+  color: var(--navy);
+}
+
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

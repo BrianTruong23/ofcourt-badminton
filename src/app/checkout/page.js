@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { useAuth } from '../../context/AuthContext';
-import styles from '../cart/cart.module.css';
+import OrderSummary from '../../components/checkout/OrderSummary';
+import styles from '../../styles/checkout.module.css';
 
 const SHIPPING_COST = 10;
 
@@ -13,44 +14,32 @@ export default function CheckoutPage() {
   const { cart, cartTotal, clearCart } = useCart();
   const router = useRouter();
   const { user } = useAuth();
-  
-  // Contact Information
+
   const [email, setEmail] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
-
-  // Pre-fill email if user is logged in
-  useEffect(() => {
-    if (user) {
-      setEmail(user.email);
-    }
-  }, [user]);
-  
-  // Delivery Method
-  const [deliveryMethod, setDeliveryMethod] = useState('shipping'); // 'shipping' or 'pickup'
-  
-  // Shipping Address
+  const [deliveryMethod, setDeliveryMethod] = useState('shipping');
   const [shippingInfo, setShippingInfo] = useState({
     fullName: '',
     address: '',
     city: '',
     state: '',
     zipCode: '',
-    country: 'United States'
+    country: 'United States',
   });
   const [isShippingValid, setIsShippingValid] = useState(false);
-  
-  // Pickup Info
   const [pickupInfo, setPickupInfo] = useState({
     fullName: '',
-    phoneNumber: ''
+    phoneNumber: '',
   });
   const [isPickupValid, setIsPickupValid] = useState(false);
+  const [isOrderPlaced, setIsOrderPlaced] = useState(false);
 
-  const shippingCost = deliveryMethod === 'shipping' ? 10 : 0;
+  const shippingCost = deliveryMethod === 'shipping' ? SHIPPING_COST : 0;
   const orderTotal = cartTotal + shippingCost;
 
-  // Success State
-  const [isOrderPlaced, setIsOrderPlaced] = useState(false);
+  useEffect(() => {
+    if (user) setEmail(user.email);
+  }, [user]);
 
   useEffect(() => {
     if (cart.length === 0 && !isOrderPlaced) {
@@ -64,7 +53,7 @@ export default function CheckoutPage() {
   }, [email]);
 
   useEffect(() => {
-    const valid = 
+    const valid =
       shippingInfo.fullName.trim() !== '' &&
       shippingInfo.address.trim() !== '' &&
       shippingInfo.city.trim() !== '' &&
@@ -74,22 +63,20 @@ export default function CheckoutPage() {
   }, [shippingInfo]);
 
   useEffect(() => {
-    const valid = 
+    const valid =
       pickupInfo.fullName.trim() !== '' &&
       pickupInfo.phoneNumber.trim() !== '';
     setIsPickupValid(valid);
   }, [pickupInfo]);
 
-  if (cart.length === 0 && !isOrderPlaced) {
-    return null;
-  }
+  if (cart.length === 0 && !isOrderPlaced) return null;
 
   const handleShippingChange = (field, value) => {
-    setShippingInfo(prev => ({ ...prev, [field]: value }));
+    setShippingInfo((prev) => ({ ...prev, [field]: value }));
   };
 
   const handlePickupChange = (field, value) => {
-    setPickupInfo(prev => ({ ...prev, [field]: value }));
+    setPickupInfo((prev) => ({ ...prev, [field]: value }));
   };
 
   const isDeliveryValid = deliveryMethod === 'shipping' ? isShippingValid : isPickupValid;
@@ -102,33 +89,23 @@ export default function CheckoutPage() {
   };
 
   const createOrder = async () => {
-    try {
-      const response = await fetch('/api/paypal/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: orderTotal }),
-      });
+    const response = await fetch('/api/paypal/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: orderTotal }),
+    });
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`API returned ${response.status}: ${errorText}`);
-      }
-
-      const order = await response.json();
-      if (!order.id) {
-        throw new Error('Order ID missing from response');
-      }
-      
-      return order.id;
-    } catch (error) {
-      console.error('Error creating order:', error);
-      alert(`Failed to create order: ${error.message}`);
-      throw error;
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API returned ${response.status}: ${errorText}`);
     }
+
+    const order = await response.json();
+    if (!order.id) throw new Error('Order ID missing from response');
+    return order.id;
   };
 
-  const onError = (err) => {
-    console.error('PayPal error:', err);
+  const onError = () => {
     alert('Payment failed. Please try again.');
   };
 
@@ -139,118 +116,85 @@ export default function CheckoutPage() {
       body: JSON.stringify({ orderID: data.orderID }),
     });
     const details = await response.json();
-    
-    if (details.status === 'COMPLETED') {
-      // Show success UI immediately
-      setIsOrderPlaced(true);
-      console.log('Payment Successful!', details);
 
-      // Save order to Supabase (background process)
+    if (details.status === 'COMPLETED') {
+      setIsOrderPlaced(true);
+
       try {
-        const createOrderResponse = await fetch('/api/create-order', {
+        await fetch('/api/create-order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             customer_email: user ? user.email : email,
-            customer_name: user?.user_metadata?.full_name || user?.user_metadata?.name || (deliveryMethod === 'shipping' ? shippingInfo.fullName : pickupInfo.fullName),
+            customer_name:
+              user?.user_metadata?.full_name ||
+              user?.user_metadata?.name ||
+              (deliveryMethod === 'shipping' ? shippingInfo.fullName : pickupInfo.fullName),
             total_price: orderTotal,
-            items: cart
+            items: cart,
           }),
         });
-        
-        if (!createOrderResponse.ok) {
-          const text = await createOrderResponse.text().catch(() => '');
-          console.error('Failed to save order to database', {
-            status: createOrderResponse.status,
-            statusText: createOrderResponse.statusText,
-            body: text,
-          });
-        }
       } catch (err) {
         console.error('Error saving order:', err);
       }
 
       const orderData = {
         orderID: data.orderID,
-        email: email,
-        deliveryMethod: deliveryMethod,
+        email,
+        deliveryMethod,
         shipping: deliveryMethod === 'shipping' ? shippingInfo : null,
         pickup: deliveryMethod === 'pickup' ? pickupInfo : null,
         items: cart,
         subtotal: cartTotal,
-        shippingCost: shippingCost,
+        shippingCost,
         total: orderTotal,
         paymentMethod: 'PayPal',
         timestamp: new Date().toISOString(),
       };
       localStorage.setItem('lastOrder', JSON.stringify(orderData));
-      
       clearCart();
-      // Redirect after a short delay to let user see the success message
-      setTimeout(() => {
-        router.push('/receipt');
-      }, 2000);
+      setTimeout(() => router.push('/receipt'), 1800);
     }
   };
 
   if (isOrderPlaced) {
     return (
-      <main className={styles.main}>
-        <div className={styles.container} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
-          <div style={{ textAlign: 'center', padding: '40px', background: 'white', borderRadius: '16px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}>
-            <div style={{ fontSize: '4rem', marginBottom: '16px' }}>🎉</div>
-            <h1 style={{ fontSize: '2rem', marginBottom: '16px', color: '#0f172a' }}>Order Submitted!</h1>
-            <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Thank you for your purchase. Redirecting to receipt...</p>
+      <div className={styles.shell}>
+        <div className={styles.page}>
+          <div className={styles.processing}>
+            <div className={styles.processingSpinner} aria-hidden="true" />
+            <h1 className={styles.processingTitle}>Processing your order</h1>
+            <p className={styles.processingDesc}>
+              Thank you. Redirecting to your confirmation...
+            </p>
           </div>
         </div>
-      </main>
+      </div>
     );
   }
 
-  const inputStyle = {
-    width: '100%',
-    padding: '12px',
-    border: '1px solid #cbd5e1',
-    borderRadius: '8px',
-    fontSize: '1rem',
-    transition: 'all 0.2s',
-  };
-
-  const labelStyle = {
-    display: 'block',
-    fontWeight: '600',
-    marginBottom: '8px',
-    color: '#475569'
-  };
-
   return (
-    <main className={styles.main}>
-      {/* ... existing JSX ... */}
-      <header className={styles.header}>
-        <div className={styles.container}>
-          <h1 className={styles.title}>Checkout</h1>
-        </div>
-      </header>
+    <div className={styles.shell}>
+      <div className={styles.page}>
+        <h1 className={styles.pageTitle}>Checkout</h1>
+        <p className={styles.pageSubtitle}>
+          Complete your details below to place your order.
+        </p>
 
-      <div className={styles.container}>
-        <div className={styles.cartGrid}>
-          <div className={styles.cartItems}>
-            {/* Contact Information */}
-            <div className={styles.cartItem} style={{ display: 'block', marginBottom: '24px' }}>
-              <h2 className={styles.summaryTitle}>Contact Information</h2>
-              <div style={{ marginBottom: '16px' }}>
-                <label htmlFor="email" style={labelStyle}>
-                  Email Address *
+        <div className={styles.layout}>
+          <div className={styles.main}>
+            {/* Contact */}
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>Contact</h2>
+              <p className={styles.sectionDesc}>
+                We&apos;ll send your order confirmation here.
+              </p>
+              <div className={styles.field}>
+                <label htmlFor="email" className={styles.label}>
+                  Email address
                 </label>
                 {user ? (
-                  <div style={{ 
-                    padding: '12px', 
-                    background: '#f1f5f9', 
-                    border: '1px solid #cbd5e1', 
-                    borderRadius: '8px',
-                    color: '#475569',
-                    fontSize: '1rem'
-                  }}>
+                  <div className={`${styles.input} ${styles.inputReadonly}`}>
                     {user.email}
                   </div>
                 ) : (
@@ -259,112 +203,119 @@ export default function CheckoutPage() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your.email@example.com"
+                    placeholder="you@example.com"
+                    className={styles.input}
                     required
-                    style={inputStyle}
                   />
                 )}
-                <p style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '8px' }}>
-                  Order confirmation will be sent to this email
-                </p>
               </div>
-            </div>
+            </section>
 
-            {/* Delivery Method */}
-            <div className={styles.cartItem} style={{ display: 'block', marginBottom: '24px' }}>
-              <h2 className={styles.summaryTitle}>Delivery Method</h2>
-              
-              <div style={{ marginBottom: '24px', display: 'flex', gap: '16px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+            {/* Delivery */}
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>Delivery</h2>
+              <p className={styles.sectionDesc}>
+                Choose how you&apos;d like to receive your order.
+              </p>
+
+              <div className={styles.optionGroup}>
+                <div className={styles.optionCard}>
                   <input
                     type="radio"
+                    id="delivery-shipping"
                     name="deliveryMethod"
                     value="shipping"
                     checked={deliveryMethod === 'shipping'}
-                    onChange={(e) => setDeliveryMethod(e.target.value)}
-                    style={{ marginRight: '8px' }}
+                    onChange={() => setDeliveryMethod('shipping')}
+                    className={styles.optionInput}
                   />
-                  <span style={{ fontWeight: '600' }}>Shipping ($10)</span>
-                </label>
-                <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                  <label htmlFor="delivery-shipping" className={styles.optionLabel}>
+                    <span className={styles.optionCheck} aria-hidden="true" />
+                    <span className={styles.optionTitle}>Standard shipping</span>
+                    <span className={styles.optionPrice}>$10 · 3–5 business days</span>
+                  </label>
+                </div>
+                <div className={styles.optionCard}>
                   <input
                     type="radio"
+                    id="delivery-pickup"
                     name="deliveryMethod"
                     value="pickup"
                     checked={deliveryMethod === 'pickup'}
-                    onChange={(e) => setDeliveryMethod(e.target.value)}
-                    style={{ marginRight: '8px' }}
+                    onChange={() => setDeliveryMethod('pickup')}
+                    className={styles.optionInput}
                   />
-                  <span style={{ fontWeight: '600' }}>Pickup (Free)</span>
-                </label>
+                  <label htmlFor="delivery-pickup" className={styles.optionLabel}>
+                    <span className={styles.optionCheck} aria-hidden="true" />
+                    <span className={styles.optionTitle}>Free pickup</span>
+                    <span className={styles.optionPrice}>Tampa, FL</span>
+                  </label>
+                </div>
               </div>
 
               {deliveryMethod === 'shipping' ? (
-                <div style={{ display: 'grid', gap: '16px' }}>
-                  <div>
-                    <label htmlFor="fullName" style={labelStyle}>Full Name *</label>
+                <>
+                  <div className={styles.field}>
+                    <label htmlFor="fullName" className={styles.label}>Full name</label>
                     <input
                       id="fullName"
                       type="text"
                       value={shippingInfo.fullName}
                       onChange={(e) => handleShippingChange('fullName', e.target.value)}
-                      placeholder="John Doe"
-                      style={inputStyle}
+                      placeholder="First and last name"
+                      className={styles.input}
                     />
                   </div>
-                  <div>
-                    <label htmlFor="address" style={labelStyle}>Street Address *</label>
+                  <div className={styles.field}>
+                    <label htmlFor="address" className={styles.label}>Street address</label>
                     <input
                       id="address"
                       type="text"
                       value={shippingInfo.address}
                       onChange={(e) => handleShippingChange('address', e.target.value)}
-                      placeholder="123 Main St"
-                      style={inputStyle}
+                      placeholder="123 Main Street"
+                      className={styles.input}
                     />
                   </div>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
-                    <div>
-                      <label htmlFor="city" style={labelStyle}>City *</label>
+                  <div className={styles.fieldRow}>
+                    <div className={styles.field}>
+                      <label htmlFor="city" className={styles.label}>City</label>
                       <input
                         id="city"
                         type="text"
                         value={shippingInfo.city}
                         onChange={(e) => handleShippingChange('city', e.target.value)}
-                        placeholder="New York"
-                        style={inputStyle}
+                        className={styles.input}
                       />
                     </div>
-                    <div>
-                      <label htmlFor="state" style={labelStyle}>State *</label>
+                    <div className={styles.field}>
+                      <label htmlFor="state" className={styles.label}>State</label>
                       <input
                         id="state"
                         type="text"
                         value={shippingInfo.state}
                         onChange={(e) => handleShippingChange('state', e.target.value)}
-                        placeholder="NY"
-                        style={inputStyle}
+                        className={styles.input}
                       />
                     </div>
-                    <div>
-                      <label htmlFor="zipCode" style={labelStyle}>ZIP Code *</label>
+                    <div className={styles.field}>
+                      <label htmlFor="zipCode" className={styles.label}>ZIP code</label>
                       <input
                         id="zipCode"
                         type="text"
                         value={shippingInfo.zipCode}
                         onChange={(e) => handleShippingChange('zipCode', e.target.value)}
-                        placeholder="10001"
-                        style={inputStyle}
+                        className={styles.input}
                       />
                     </div>
                   </div>
-                  <div>
-                    <label htmlFor="country" style={labelStyle}>Country *</label>
+                  <div className={styles.field}>
+                    <label htmlFor="country" className={styles.label}>Country</label>
                     <select
                       id="country"
                       value={shippingInfo.country}
                       onChange={(e) => handleShippingChange('country', e.target.value)}
-                      style={inputStyle}
+                      className={styles.select}
                     >
                       <option>United States</option>
                       <option>Canada</option>
@@ -372,113 +323,86 @@ export default function CheckoutPage() {
                       <option>Australia</option>
                     </select>
                   </div>
-                </div>
+                </>
               ) : (
                 <>
-                  <div style={{
-                    padding: '12px 16px',
-                    background: '#fef3c7',
-                    border: '1px solid #fbbf24',
-                    borderRadius: '8px',
-                    marginBottom: '16px',
-                    color: '#92400e',
-                    fontSize: '0.9rem'
-                  }}>
-                    📍 <strong>FREE Pickup in Tampa!</strong> We'll contact you to arrange pickup.
+                  <div className={styles.notice}>
+                    <span className={styles.noticeIcon} aria-hidden="true">📍</span>
+                    <span>
+                      <strong>Free pickup in Tampa.</strong> We&apos;ll contact you to arrange a convenient time.
+                    </span>
                   </div>
-                  <div style={{ display: 'grid', gap: '16px' }}>
-                    <div>
-                      <label htmlFor="pickupName" style={labelStyle}>Full Name *</label>
-                      <input
-                        id="pickupName"
-                        type="text"
-                        value={pickupInfo.fullName}
-                        onChange={(e) => handlePickupChange('fullName', e.target.value)}
-                        placeholder="John Doe"
-                        style={inputStyle}
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="phoneNumber" style={labelStyle}>Phone Number *</label>
-                      <input
-                        id="phoneNumber"
-                        type="tel"
-                        value={pickupInfo.phoneNumber}
-                        onChange={(e) => handlePickupChange('phoneNumber', e.target.value)}
-                        placeholder="(555) 123-4567"
-                        style={inputStyle}
-                      />
-                      <p style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '8px' }}>
-                        We'll call you when your order is ready for pickup
-                      </p>
-                    </div>
+                  <div className={styles.field}>
+                    <label htmlFor="pickupName" className={styles.label}>Full name</label>
+                    <input
+                      id="pickupName"
+                      type="text"
+                      value={pickupInfo.fullName}
+                      onChange={(e) => handlePickupChange('fullName', e.target.value)}
+                      className={styles.input}
+                    />
+                  </div>
+                  <div className={styles.field}>
+                    <label htmlFor="phoneNumber" className={styles.label}>Phone number</label>
+                    <input
+                      id="phoneNumber"
+                      type="tel"
+                      value={pickupInfo.phoneNumber}
+                      onChange={(e) => handlePickupChange('phoneNumber', e.target.value)}
+                      placeholder="(555) 123-4567"
+                      className={styles.input}
+                    />
+                    <p className={styles.fieldHint}>
+                      We&apos;ll call when your order is ready for pickup.
+                    </p>
                   </div>
                 </>
               )}
-            </div>
+            </section>
 
-            {/* Payment Method */}
-            {canProceedToPayment && (
-              <div className={styles.cartItem} style={{ display: 'block' }}>
-                <h2 className={styles.summaryTitle}>Payment</h2>
-                <p style={{ color: '#64748b', marginBottom: '16px' }}>
-                  Pay securely with PayPal or Credit/Debit Card
-                </p>
-                <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '24px' }}>
-                  No PayPal account required - you can pay with any credit or debit card
-                </p>
-                <PayPalScriptProvider options={initialOptions}>
-                  <PayPalButtons
-                    createOrder={createOrder}
-                    onApprove={onApprove}
-                    onError={onError}
-                    style={{
-                      layout: 'vertical',
-                      color: 'gold',
-                      shape: 'rect',
-                      label: 'paypal',
-                    }}
-                  />
-                </PayPalScriptProvider>
-              </div>
-            )}
-
-            {!canProceedToPayment && (
-              <div style={{
-                padding: '16px',
-                background: '#f8fafc',
-                borderRadius: '8px',
-                color: '#64748b',
-                textAlign: 'center'
-              }}>
-                Please complete contact information and delivery method to continue
-              </div>
-            )}
+            {/* Payment */}
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>Payment</h2>
+              {canProceedToPayment ? (
+                <>
+                  <p className={styles.paymentNote}>
+                    Pay securely with PayPal or any credit or debit card. No PayPal account required.
+                  </p>
+                  <div className={styles.paymentWrap}>
+                    <PayPalScriptProvider options={initialOptions}>
+                      <PayPalButtons
+                        createOrder={createOrder}
+                        onApprove={onApprove}
+                        onError={onError}
+                        style={{
+                          layout: 'vertical',
+                          color: 'blue',
+                          shape: 'pill',
+                          label: 'paypal',
+                          height: 48,
+                        }}
+                      />
+                    </PayPalScriptProvider>
+                  </div>
+                </>
+              ) : (
+                <div className={styles.blockedNote}>
+                  Please complete your contact and delivery details to continue to payment.
+                </div>
+              )}
+            </section>
           </div>
 
-          <aside className={styles.summaryCard}>
-            <h2 className={styles.summaryTitle}>Order Summary</h2>
-            {cart.map((item) => (
-              <div key={item.cartId} style={{ marginBottom: '16px', paddingBottom: '16px', borderBottom: '1px solid #e2e8f0' }}>
-                <div style={{ fontWeight: '600', marginBottom: '4px' }}>{item.title}</div>
-                <div style={{ fontSize: '0.9rem', color: '#64748b' }}>${item.totalPrice}</div>
-              </div>
-            ))}
-            <div className={styles.summaryRow}>
-              <span>Subtotal</span>
-              <span>${cartTotal}</span>
-            </div>
-            <div className={styles.summaryRow}>
-              <span>Shipping</span>
-              <span>{shippingCost === 0 ? 'Free (Pickup)' : `$${shippingCost}`}</span>
-            </div>
-            <div className={styles.totalRow}>
-              <span>Total</span>
-              <span>${orderTotal}</span>
-            </div>
-          </aside>
+          <OrderSummary
+            items={cart}
+            subtotal={cartTotal}
+            shippingCost={shippingCost}
+            total={orderTotal}
+            shippingLabel={deliveryMethod === 'pickup' ? 'Pickup' : 'Shipping'}
+            helpText="All prices in USD. Payment processed securely via PayPal."
+          />
         </div>
       </div>
-    </main>
+    </div>
   );
 }

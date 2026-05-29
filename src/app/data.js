@@ -1,3 +1,41 @@
+// Derives presentation metadata (play style, level, weight class, benefit) from
+// each racket's real specs. No ratings or review counts are invented here — when
+// real review data exists, add a `rating` / `reviewCount` field to a listing and
+// the UI will display it; otherwise products show a neutral "New" tag.
+export function getProductMeta(listing) {
+  const balance = (listing.specs?.balance || '').toLowerCase();
+  const stiffness = (listing.specs?.stiffness || '').toLowerCase();
+  const weight = (listing.specs?.weight || '').toUpperCase();
+
+  let style = 'All-Round';
+  if (balance.includes('head heavy')) style = 'Power';
+  else if (balance.includes('head light')) style = 'Speed';
+  else if (balance.includes('even')) style = 'Control';
+
+  let level = 'Intermediate';
+  if (stiffness.includes('extra stiff')) level = 'Advanced';
+  else if (stiffness.includes('stiff')) level = 'Intermediate';
+  else if (stiffness.includes('medium')) level = 'Intermediate';
+
+  const weightClass = weight.includes('4U') ? 'Lightweight' : 'Standard';
+
+  const benefitByStyle = {
+    Power: 'Steep, heavy smashes from the back court.',
+    Speed: 'Fast swings and quick defensive reactions.',
+    Control: 'Precise placement with a longer shuttle hold.',
+    'All-Round': 'Balanced feel for all-court play.',
+  };
+
+  return {
+    style,
+    level,
+    weightClass,
+    benefit: benefitByStyle[style],
+    rating: listing.rating ?? null,
+    reviewCount: listing.reviewCount ?? null,
+  };
+}
+
 export const listings = [
   {
     id: 1,

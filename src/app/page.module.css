@@ -1,91 +1,494 @@
 .main {
   min-height: 100vh;
+  background: var(--cream);
 }
 
-.hero {
-  height: 90vh;
-  min-height: 600px;
-  background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('/images/court2.png');
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: white;
-  padding: 0 24px;
+.section {
+  padding: 84px 0;
 }
 
-.heroContent {
-  max-width: 800px;
-}
-
-.title {
-  font-size: 4.5rem;
-  font-weight: 800;
-  margin-bottom: 24px;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-
-.subtitle {
-  font-size: 1.5rem;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 40px;
-  font-weight: 300;
-}
-
-.mission {
-  padding: 100px 24px;
-  background: white;
-  text-align: center;
+.sectionAlt {
+  background: var(--cream-deep);
 }
 
 .container {
-  max-width: 800px;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* ===== Selling points ===== */
+.pointsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.pointCard {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pointCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.pointIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: var(--navy);
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+
+.pointTitle {
+  font-size: 1.2rem;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.pointText {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* ===== Categories ===== */
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.categoryCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 26px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.categoryCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--green);
+}
+
+.categoryName {
+  display: block;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.categoryDesc {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.categoryArrow {
+  color: var(--orange);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.categoryCard:hover .categoryArrow {
+  transform: translateX(4px);
+}
+
+/* ===== Featured ===== */
+.featuredHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.featuredHead > div {
+  margin-bottom: 0;
+}
+
+.viewAll {
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+
+.featuredGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+
+/* ===== Comparison ===== */
+.compareWrap {
+  overflow-x: auto;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.compareTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.compareTable thead th {
+  text-align: left;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 18px 20px;
+  background: var(--cream-deep);
+  border-bottom: 1px solid var(--border);
+}
+
+.compareTable tbody td {
+  padding: 18px 20px;
+  font-size: 0.92rem;
+  color: var(--text-soft);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.compareTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.compareTable tbody tr:hover {
+  background: var(--cream-card);
+}
+
+.compareName {
+  display: block;
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 0.98rem;
+}
+
+.compareBrand {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+.compareLink {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--orange-dark);
+  padding: 7px 14px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.compareLink:hover {
+  border-color: var(--orange);
+  background: var(--orange-soft);
+}
+
+.compareFoot {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+}
+
+/* ===== Guarantees ===== */
+.guaranteeGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.guaranteeCard {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-xs);
+}
+
+.guaranteeIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  color: var(--green-dark);
+  margin-bottom: 16px;
+}
+
+.guaranteeTitle {
+  font-size: 1.06rem;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.guaranteeText {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* ===== Testimonials ===== */
+.testimonialGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.testimonialCard {
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+.quoteMark {
+  position: absolute;
+  top: 6px;
+  left: 22px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--green);
+  opacity: 0.3;
+}
+
+.testimonialQuote {
+  position: relative;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text-soft);
+  margin-bottom: 22px;
+}
+
+.testimonialMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+
+.testimonialName {
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 0.95rem;
+}
+
+.testimonialRole {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+/* ===== FAQ ===== */
+.faqList {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faqItem {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+}
+
+.faqQuestion {
+  padding: 20px 24px;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.faqQuestion::-webkit-details-marker {
+  display: none;
+}
+
+.faqQuestion::after {
+  content: '+';
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--orange);
+  flex-shrink: 0;
+}
+
+.faqItem[open] .faqQuestion::after {
+  content: '\2013';
+}
+
+.faqAnswer {
+  padding: 0 24px 22px;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+/* ===== Final CTA ===== */
+.ctaBanner {
+  padding: 96px 0;
+  background:
+    radial-gradient(70% 120% at 50% 0%, var(--navy-700), transparent 60%),
+    var(--navy);
+}
+
+.ctaInner {
+  text-align: center;
+  max-width: 620px;
   margin: 0 auto;
 }
 
-.missionTitle {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin-bottom: 32px;
+.ctaTitle {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  color: var(--cream);
+  margin-bottom: 14px;
 }
 
-.missionText {
-  font-size: 1.25rem;
-  line-height: 1.8;
-  color: #475569;
-  margin-bottom: 48px;
+.ctaSubtitle {
+  font-size: 1.08rem;
+  color: rgba(247, 243, 234, 0.78);
+  line-height: 1.6;
+  margin-bottom: 30px;
 }
 
-.ctaButton {
-  display: inline-block;
-  background: #2563eb;
-  color: white;
-  padding: 20px 48px;
-  font-size: 1.25rem;
-  font-weight: 600;
-  border-radius: 50px;
-  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
 }
 
-.ctaButton:hover {
-  background: #1d4ed8;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.4);
+/* ===== Responsive ===== */
+@media (max-width: 960px) {
+  .pointsGrid,
+  .guaranteeGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .categoryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .featuredGrid,
+  .testimonialGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
-  .title {
-    font-size: 3rem;
+  .section {
+    padding: 64px 0;
   }
-  .hero {
-    height: 80vh;
+  /* Stacked comparison cards on mobile */
+  .compareWrap {
+    overflow-x: visible;
+    background: transparent;
+    border: none;
+    box-shadow: none;
   }
-  .mission {
-    padding: 60px 24px;
+  .compareTable {
+    min-width: 0;
+  }
+  .compareTable thead {
+    display: none;
+  }
+  .compareTable tbody {
+    display: grid;
+    gap: 14px;
+  }
+  .compareTable tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 12px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: var(--shadow-xs);
+  }
+  .compareTable tbody td {
+    padding: 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 0.88rem;
+  }
+  .compareTable tbody td::before {
+    content: attr(data-label);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .compareTable tbody td[data-label="Racket"],
+  .compareTable tbody td[data-label="Best for"],
+  .compareTable tbody td[data-label=""] {
+    grid-column: 1 / -1;
+  }
+  .compareTable tbody td[data-label="Racket"]::before,
+  .compareTable tbody td[data-label=""]::before {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .pointsGrid,
+  .guaranteeGrid,
+  .categoryGrid,
+  .featuredGrid,
+  .testimonialGrid {
+    grid-template-columns: 1fr;
+  }
+  .ctaActions {
+    flex-direction: column;
   }
 }

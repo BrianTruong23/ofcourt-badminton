@@ -1,7 +1,7 @@
 .main {
   min-height: 80vh;
   padding: 40px 20px;
-  background-color: #f8fafc;
+  background-color: var(--cream);
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -21,7 +21,7 @@
 }
 
 .header {
-  background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-700) 100%);
   padding: 40px;
   text-align: center;
   color: white;
@@ -125,14 +125,14 @@
 }
 
 .primaryButton {
-  background: #0f172a;
+  background: var(--orange);
   color: white;
-  border: 1px solid #0f172a;
+  border: 1px solid var(--orange);
 }
 
 .primaryButton:hover {
-  background: #334155;
-  border-color: #334155;
+  background: var(--orange-dark);
+  border-color: var(--orange-dark);
 }
 
 .secondaryButton {

@@ -1,0 +1,79 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px;
+  height: 100%;
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-sm);
+  background: var(--green-soft);
+  color: var(--green-dark);
+  margin-bottom: 4px;
+}
+
+.title {
+  font-size: 1.18rem;
+  color: var(--navy);
+}
+
+.description {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  flex-grow: 1;
+}
+
+.fit {
+  font-size: 0.84rem;
+  color: var(--text-soft);
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 10px 12px;
+}
+
+.fitLabel {
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green-dark);
+  margin-bottom: 3px;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--orange-dark);
+  margin-top: 2px;
+}
+
+.link svg {
+  transition: transform 0.2s ease;
+}
+
+.card:hover .link svg {
+  transform: translateX(4px);
+}

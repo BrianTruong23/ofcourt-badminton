@@ -1,0 +1,92 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.image {
+  height: 240px;
+  width: 100%;
+}
+
+.body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.line {
+  height: 14px;
+  border-radius: 6px;
+}
+
+.short {
+  width: 40%;
+  height: 10px;
+}
+
+.title {
+  width: 75%;
+  height: 22px;
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.chip {
+  width: 72px;
+  height: 26px;
+  border-radius: 999px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.price {
+  width: 60px;
+  height: 24px;
+}
+
+.button {
+  width: 110px;
+  height: 40px;
+  border-radius: 999px;
+}
+
+.shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--cream-deep) 30%,
+    #f3ecdd 50%,
+    var(--cream-deep) 70%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

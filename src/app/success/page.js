@@ -2,28 +2,33 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
-import styles from '../cart/cart.module.css';
+import styles from '../../styles/checkout.module.css';
 
 export default function SuccessPage() {
   useEffect(() => {
-    // Clear the cart from localStorage on success
     localStorage.removeItem('cart');
   }, []);
 
   return (
-    <main className={styles.main}>
-      <div className={styles.container}>
-        <div className={styles.emptyCart} style={{ padding: '120px 0' }}>
-          <div style={{ fontSize: '4rem', marginBottom: '24px' }}>✓</div>
-          <h1 className={styles.emptyTitle}>Payment Successful!</h1>
-          <p style={{ color: '#64748b', marginBottom: '32px', fontSize: '1.1rem' }}>
-            Thank you for your order. You will receive a confirmation email shortly.
+    <div className={styles.shell}>
+      <div className={`${styles.page} ${styles.pageNarrow}`}>
+        <div className={styles.successHero}>
+          <div className={styles.successIcon} aria-hidden="true">✓</div>
+          <h1 className={styles.successTitle}>Payment successful</h1>
+          <p className={styles.successDesc}>
+            Thank you for your order. You&apos;ll receive a confirmation email shortly.
           </p>
-          <Link href="/" className={styles.continueBtn}>
-            Continue Shopping
+        </div>
+
+        <div className={styles.actions}>
+          <Link href="/shop" className={styles.primaryBtn}>
+            Continue shopping
+          </Link>
+          <Link href="/" className={styles.secondaryBtn}>
+            Back to home
           </Link>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

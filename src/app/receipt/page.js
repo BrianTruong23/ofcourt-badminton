@@ -3,7 +3,19 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import styles from '../cart/cart.module.css';
+import styles from '../../styles/checkout.module.css';
+
+function formatCustomization(customization) {
+  if (!customization) return null;
+  const lines = [];
+  if (customization.string) lines.push(`String: ${customization.string}`);
+  if (customization.string !== 'Unstrung' && customization.tension) {
+    lines.push(`Tension: ${customization.tension}`);
+  }
+  if (customization.stringColor) lines.push(`Color: ${customization.stringColor}`);
+  if (customization.grip) lines.push(`Grip: ${customization.grip}`);
+  return lines;
+}
 
 export default function ReceiptPage() {
   const router = useRouter();
@@ -14,188 +26,93 @@ export default function ReceiptPage() {
     if (storedOrder) {
       setOrderData(JSON.parse(storedOrder));
     } else {
-      // No order data, redirect to home
       router.push('/');
     }
   }, [router]);
 
   if (!orderData) {
     return (
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <p>Loading...</p>
+      <div className={styles.shell}>
+        <div className={styles.page}>
+          <p className={styles.loading}>Loading your order...</p>
         </div>
-      </main>
+      </div>
     );
   }
 
   const orderDate = new Date(orderData.timestamp);
 
   return (
-    <main className={styles.main}>
-      <div className={styles.container} style={{ maxWidth: '800px', padding: '60px 24px' }}>
-        <div style={{
-          textAlign: 'center',
-          marginBottom: '48px'
-        }}>
-          <div style={{
-            width: '80px',
-            height: '80px',
-            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-            borderRadius: '50%',
-            margin: '0 auto 24px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '3rem',
-          }}>
-            ✓
-          </div>
-          <h1 style={{
-            fontSize: '2.5rem',
-            fontWeight: '800',
-            color: '#0f172a',
-            marginBottom: '12px'
-          }}>
-            Order Successful!
-          </h1>
-          <p style={{
-            fontSize: '1.1rem',
-            color: '#64748b',
-            marginBottom: '8px'
-          }}>
-            Thank you for your purchase
+    <div className={styles.shell}>
+      <div className={`${styles.page} ${styles.pageNarrow}`}>
+        <div className={styles.successHero}>
+          <div className={styles.successIcon} aria-hidden="true">✓</div>
+          <h1 className={styles.successTitle}>Thank you for your order</h1>
+          <p className={styles.successDesc}>
+            Your order has been placed successfully.
           </p>
-          <p style={{
-            fontSize: '0.95rem',
-            color: '#10b981',
-            fontWeight: '600'
-          }}>
-            📧 Receipt sent to {orderData.email}
+          <p className={styles.successEmail}>
+            Confirmation sent to {orderData.email}
           </p>
         </div>
 
-        <div style={{
-          background: 'white',
-          border: '1px solid #e2e8f0',
-          borderRadius: '16px',
-          padding: '32px',
-          marginBottom: '32px'
-        }}>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            paddingBottom: '24px',
-            borderBottom: '2px solid #f1f5f9',
-            marginBottom: '24px'
-          }}>
-            <div>
-              <h2 style={{
-                fontSize: '1.5rem',
-                fontWeight: '700',
-                color: '#0f172a',
-                marginBottom: '8px'
-              }}>
-                Order Details
-              </h2>
-              <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
-                Order ID: {orderData.orderID}
-              </p>
-              <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
-                Date: {orderDate.toLocaleDateString()} {orderDate.toLocaleTimeString()}
-              </p>
-            </div>
+        <div className={styles.receiptCard}>
+          <div className={styles.receiptHeader}>
+            <h2 className={styles.receiptHeading}>Order details</h2>
+            <p className={styles.receiptMeta}>
+              Order ID: {orderData.orderID}<br />
+              {orderDate.toLocaleDateString(undefined, {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}{' '}
+              at {orderDate.toLocaleTimeString(undefined, {
+                hour: 'numeric',
+                minute: '2-digit',
+              })}
+            </p>
           </div>
 
-          <div style={{ marginBottom: '24px' }}>
-            <h3 style={{
-              fontSize: '1.1rem',
-              fontWeight: '700',
-              color: '#475569',
-              marginBottom: '16px'
-            }}>
-              Items Purchased
-            </h3>
-            {orderData.items.map((item) => (
-              <div
-                key={item.cartId}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  padding: '16px',
-                  background: '#f8fafc',
-                  borderRadius: '8px',
-                  marginBottom: '12px'
-                }}
-              >
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: '600', color: '#0f172a', marginBottom: '4px' }}>
-                    {item.title}
+          <div className={styles.receiptSection}>
+            <h3 className={styles.receiptSectionTitle}>Items</h3>
+            {orderData.items.map((item) => {
+              const meta = formatCustomization(item.customization);
+              return (
+                <div key={item.cartId} className={styles.receiptLineItem}>
+                  <div>
+                    <div className={styles.receiptItemName}>{item.title}</div>
+                    {meta && meta.map((line) => (
+                      <div key={line} className={styles.receiptItemMeta}>{line}</div>
+                    ))}
                   </div>
-                  {item.customizations && (
-                    <div style={{ fontSize: '0.85rem', color: '#64748b' }}>
-                      <div>String: {item.customizations.stringType}</div>
-                      <div>Tension: {item.customizations.tension} lbs</div>
-                      <div>Grip: {item.customizations.gripType}</div>
-                      <div>Color: {item.customizations.stringColor}</div>
-                    </div>
-                  )}
+                  <span className={styles.receiptItemPrice}>${item.totalPrice}</span>
                 </div>
-                <div style={{
-                  fontWeight: '700',
-                  color: '#0f172a',
-                  fontSize: '1.1rem'
-                }}>
-                  ${item.totalPrice}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          {/* Delivery Information */}
           {orderData.deliveryMethod && (
-            <div style={{ marginBottom: '24px' }}>
-              <h3 style={{
-                fontSize: '1.1rem',
-                fontWeight: '700',
-                color: '#475569',
-                marginBottom: '16px'
-              }}>
-                {orderData.deliveryMethod === 'shipping' ? 'Shipping Address' : 'Pickup Information'}
+            <div className={styles.receiptSection}>
+              <h3 className={styles.receiptSectionTitle}>
+                {orderData.deliveryMethod === 'shipping' ? 'Shipping address' : 'Pickup details'}
               </h3>
-              <div style={{
-                padding: '16px',
-                background: '#f8fafc',
-                borderRadius: '8px',
-                fontSize: '0.95rem',
-                color: '#0f172a',
-                lineHeight: '1.6'
-              }}>
+              <div className={styles.infoBlock}>
                 {orderData.deliveryMethod === 'shipping' && orderData.shipping ? (
                   <>
-                    <div style={{ fontWeight: '600' }}>{orderData.shipping.fullName}</div>
+                    <div className={styles.infoBlockName}>{orderData.shipping.fullName}</div>
                     <div>{orderData.shipping.address}</div>
                     <div>
                       {orderData.shipping.city}, {orderData.shipping.state} {orderData.shipping.zipCode}
                     </div>
                     <div>{orderData.shipping.country}</div>
                   </>
-                ) : orderData.deliveryMethod === 'pickup' && orderData.pickup ? (
+                ) : orderData.pickup ? (
                   <>
-                    <div style={{ fontWeight: '600' }}>{orderData.pickup.fullName}</div>
-                    <div style={{ marginTop: '8px' }}>
-                      <strong>Phone:</strong> {orderData.pickup.phoneNumber}
-                    </div>
-                    <div style={{
-                      marginTop: '12px',
-                      padding: '8px',
-                      background: '#fef3c7',
-                      border: '1px solid #fbbf24',
-                      borderRadius: '4px',
-                      color: '#92400e',
-                      fontSize: '0.85rem'
-                    }}>
-                      📍 Pickup Location: Florida - We'll call you when ready
+                    <div className={styles.infoBlockName}>{orderData.pickup.fullName}</div>
+                    <div>Phone: {orderData.pickup.phoneNumber}</div>
+                    <div style={{ marginTop: 10, fontSize: '0.875rem', color: 'var(--ck-text-secondary)' }}>
+                      Pickup location: Tampa, FL — we&apos;ll call when ready
                     </div>
                   </>
                 ) : null}
@@ -203,104 +120,38 @@ export default function ReceiptPage() {
             </div>
           )}
 
-          {/* Payment Method */}
           {orderData.paymentMethod && (
-            <div style={{ marginBottom: '24px' }}>
-              <h3 style={{
-                fontSize: '1.1rem',
-                fontWeight: '700',
-                color: '#475569',
-                marginBottom: '16px'
-              }}>
-                Payment Method
-              </h3>
-              <div style={{
-                padding: '16px',
-                background: '#f8fafc',
-                borderRadius: '8px',
-                fontSize: '0.95rem',
-                color: '#0f172a',
-                fontWeight: '600'
-              }}>
-                {orderData.paymentMethod}
-              </div>
+            <div className={styles.receiptSection}>
+              <h3 className={styles.receiptSectionTitle}>Payment</h3>
+              <div className={styles.infoBlock}>{orderData.paymentMethod}</div>
             </div>
           )}
 
-          <div style={{
-            borderTop: '2px solid #f1f5f9',
-            paddingTop: '24px'
-          }}>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginBottom: '12px',
-              color: '#64748b'
-            }}>
+          <div className={styles.receiptTotals}>
+            <div className={styles.summaryRow}>
               <span>Subtotal</span>
-              <span>${orderData.subtotal || orderData.total}</span>
+              <span>${orderData.subtotal ?? orderData.total}</span>
             </div>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginBottom: '16px',
-              color: '#64748b'
-            }}>
+            <div className={styles.summaryRow}>
               <span>Shipping</span>
-              <span>${orderData.shippingCost || 0}</span>
+              <span>{orderData.shippingCost ? `$${orderData.shippingCost}` : 'Free'}</span>
             </div>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              fontSize: '1.5rem',
-              fontWeight: '700',
-              color: '#0f172a'
-            }}>
+            <div className={styles.summaryTotal}>
               <span>Total</span>
               <span>${orderData.total}</span>
             </div>
           </div>
         </div>
 
-        <div style={{
-          textAlign: 'center',
-          display: 'flex',
-          gap: '16px',
-          justifyContent: 'center'
-        }}>
-          <Link
-            href="/shop"
-            style={{
-              display: 'inline-block',
-              background: '#0f172a',
-              color: 'white',
-              padding: '16px 32px',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontWeight: '600',
-              transition: 'all 0.2s'
-            }}
-          >
-            Continue Shopping
+        <div className={styles.actions}>
+          <Link href="/shop" className={styles.primaryBtn}>
+            Continue shopping
           </Link>
-          <Link
-            href="/"
-            style={{
-              display: 'inline-block',
-              background: 'white',
-              color: '#0f172a',
-              padding: '16px 32px',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontWeight: '600',
-              border: '1px solid #e2e8f0',
-              transition: 'all 0.2s'
-            }}
-          >
-            Back to Home
+          <Link href="/" className={styles.secondaryBtn}>
+            Back to home
           </Link>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

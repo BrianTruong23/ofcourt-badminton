@@ -1,0 +1,257 @@
+.hero {
+  position: relative;
+  background:
+    radial-gradient(80% 120% at 100% 0%, rgba(111, 143, 114, 0.1), transparent 55%),
+    var(--cream);
+  overflow: hidden;
+}
+
+.inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 72px 24px 84px;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.copy {
+  max-width: 560px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--green-dark);
+  background: var(--green-soft);
+  border-radius: var(--radius-pill);
+}
+
+.eyebrowDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.title {
+  margin-top: 22px;
+  font-size: clamp(2.6rem, 5.2vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+
+.titleAccent {
+  color: var(--orange);
+  font-style: italic;
+}
+
+.subtitle {
+  margin-top: 22px;
+  font-size: 1.12rem;
+  line-height: 1.65;
+  color: var(--text-soft);
+  max-width: 500px;
+}
+
+.actions {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.trustRow {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.trustItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-soft);
+}
+
+.trustIcon {
+  color: var(--green-dark);
+  display: inline-flex;
+}
+
+/* ===== Visual / showcase ===== */
+.visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.showcaseCard {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.showcaseTag {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 2;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: var(--cream);
+  border: 1px solid var(--border-strong);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.showcaseStage {
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(70% 70% at 50% 35%, rgba(16, 42, 67, 0.06), transparent 70%),
+    linear-gradient(160deg, var(--cream-card), var(--cream-deep));
+  border-bottom: 1px solid var(--border);
+}
+
+.showcaseRacket {
+  height: 270px;
+  width: auto;
+  filter: drop-shadow(0 16px 28px rgba(16, 42, 67, 0.18));
+}
+
+.showcaseInfo {
+  padding: 24px;
+}
+
+.showcaseBrand {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green-dark);
+}
+
+.showcaseName {
+  margin-top: 5px;
+  font-size: 1.5rem;
+  color: var(--navy);
+}
+
+.showcaseChips {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.chip {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  background: var(--cream-deep);
+  border: 1px solid var(--border);
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+}
+
+.showcaseFoot {
+  margin-top: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.showcasePrice {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--navy);
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.floatBadge {
+  position: absolute;
+  bottom: -18px;
+  left: -10px;
+  background: var(--navy);
+  color: var(--cream);
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+
+.floatBadgeNum {
+  display: block;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--cream);
+}
+
+.floatBadgeLabel {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: rgba(247, 243, 234, 0.7);
+}
+
+@media (max-width: 920px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 52px 24px 64px;
+  }
+  .copy {
+    max-width: none;
+  }
+  .visual {
+    order: -1;
+  }
+  .floatBadge {
+    left: auto;
+    right: 8px;
+  }
+}
+
+@media (max-width: 560px) {
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .trustRow {
+    gap: 14px;
+  }
+  .showcaseStage {
+    height: 260px;
+  }
+  .showcaseRacket {
+    height: 220px;
+  }
+}
