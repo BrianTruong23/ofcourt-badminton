@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(11, 40, 32, 0.92);
+  background: rgba(16, 42, 67, 0.94);
   backdrop-filter: saturate(180%) blur(14px);
   -webkit-backdrop-filter: saturate(180%) blur(14px);
   border-bottom: 1px solid rgba(250, 247, 239, 0.1);
@@ -28,12 +28,20 @@
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: var(--accent);
-  color: var(--primary);
+  background: #DDE4FF;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(76, 140, 228, 0.25);
+}
+
+.logoMark {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
 .logoText {
@@ -41,7 +49,7 @@
   font-size: 1.28rem;
   font-weight: 600;
   letter-spacing: -0.01em;
-  color: #F5F0E6;
+  color: #F6F8FB;
   line-height: 1;
 }
 
@@ -73,12 +81,12 @@
 }
 
 .navLink:hover {
-  color: #F5F0E6;
+  color: #F6F8FB;
   background: rgba(250, 247, 239, 0.08);
 }
 
 .navLinkActive {
-  color: #F5F0E6;
+  color: #F6F8FB;
   font-weight: 600;
   background: rgba(250, 247, 239, 0.06);
 }
@@ -96,7 +104,7 @@
   border-radius: var(--radius-pill);
   font-size: 0.88rem;
   background: rgba(255, 255, 255, 0.06);
-  color: #F5F0E6;
+  color: #F6F8FB;
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
@@ -108,7 +116,7 @@
   outline: none;
   border-color: var(--accent);
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 0 3px rgba(244, 183, 64, 0.18);
+  box-shadow: 0 0 0 3px rgba(76, 140, 228, 0.24);
 }
 
 .searchIcon {
@@ -140,7 +148,7 @@
 }
 
 .iconButton:hover {
-  color: #F5F0E6;
+  color: #F6F8FB;
   background: rgba(250, 247, 239, 0.1);
 }
 
@@ -158,7 +166,7 @@
   top: 0;
   right: 0;
   background: var(--accent);
-  color: var(--primary);
+  color: var(--navy);
   font-size: 0.62rem;
   font-weight: 700;
   min-width: 17px;
@@ -168,7 +176,7 @@
   align-items: center;
   justify-content: center;
   padding: 0 4px;
-  border: 2px solid #0B2820;
+  border: 2px solid var(--navy);
 }
 
 .userMenu {
@@ -203,20 +211,20 @@
   align-items: center;
   font-size: 0.88rem;
   font-weight: 600;
-  color: var(--primary);
+  color: var(--navy);
   background: var(--accent);
   padding: 10px 20px;
   border-radius: var(--radius-pill);
-  box-shadow: 0 4px 16px rgba(244, 183, 64, 0.28);
+  box-shadow: 0 4px 16px rgba(76, 140, 228, 0.3);
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
   margin-left: 6px;
   letter-spacing: 0.01em;
 }
 
 .shopCta:hover {
-  background: #F0AC30;
+  background: #6FA6EF;
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(244, 183, 64, 0.38);
+  box-shadow: 0 6px 20px rgba(76, 140, 228, 0.4);
 }
 
 .menuToggle {
@@ -261,7 +269,7 @@
     gap: 2px;
     padding: 8px 16px 20px;
     border-top: 1px solid rgba(250, 247, 239, 0.1);
-    background: #0B2820;
+    background: var(--navy);
   }
 
   .mobileSearch {
@@ -284,7 +292,7 @@
     border-radius: var(--radius-pill);
     font-size: 0.95rem;
     background: rgba(255, 255, 255, 0.07);
-    color: #F5F0E6;
+    color: #F6F8FB;
   }
 
   .mobileSearch input::placeholder {
@@ -294,7 +302,7 @@
   .mobileSearch input:focus {
     outline: none;
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(244, 183, 64, 0.18);
+    box-shadow: 0 0 0 3px rgba(76, 140, 228, 0.24);
   }
 
   .mobileLink {
@@ -307,7 +315,7 @@
 
   .mobileLink:hover {
     background: rgba(250, 247, 239, 0.07);
-    color: #F5F0E6;
+    color: #F6F8FB;
   }
 }
 

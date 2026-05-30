@@ -36,7 +36,7 @@
 .heroPrimary {
   background: var(--primary);
   color: #fff;
-  box-shadow: 0 6px 18px rgba(18, 60, 50, 0.26);
+  box-shadow: 0 6px 18px rgba(31, 111, 95, 0.26);
 }
 
 .primary:hover,
@@ -45,7 +45,7 @@
 .heroPrimary:hover {
   background: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(18, 60, 50, 0.32);
+  box-shadow: 0 10px 26px rgba(31, 111, 95, 0.32);
 }
 
 /* Secondary = soft cream card with green wordmark */

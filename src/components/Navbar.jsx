@@ -5,6 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import SiteMark from './SiteMark';
 import styles from './Navbar.module.css';
 
 const NAV_LINKS = [
@@ -50,10 +51,7 @@ export default function Navbar() {
       <div className={styles.container}>
         <Link href="/" className={styles.logo} onClick={() => setMenuOpen(false)}>
           <span className={styles.logoIcon} aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <ellipse cx="11" cy="8" rx="6.5" ry="7" />
-              <path d="M6.5 13.5 L4 21" />
-            </svg>
+            <SiteMark title="" className={styles.logoMark} />
           </span>
           <span className={styles.logoText}>
             OfCourt <span className={styles.logoSub}>Badminton</span>

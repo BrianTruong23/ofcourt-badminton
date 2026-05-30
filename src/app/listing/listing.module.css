@@ -214,13 +214,13 @@
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 6px 18px rgba(18, 60, 50, 0.26);
+  box-shadow: 0 6px 18px rgba(31, 111, 95, 0.26);
 }
 
 .addBtn:hover {
   background: var(--orange-dark);
   transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(18, 60, 50, 0.32);
+  box-shadow: 0 10px 26px rgba(31, 111, 95, 0.32);
 }
 
 .assurances {

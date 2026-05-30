@@ -1,25 +1,29 @@
-/* Apple-inspired checkout design system */
+/* Checkout design system aligned with the main OfCourt brand */
 
 .shell {
-  --ck-bg: #FAF7EF;
-  --ck-surface: #FFFDF7;
-  --ck-surface-muted: #F4EEDF;
+  --ck-bg: #F6F8FB;
+  --ck-surface: #FFFFFF;
+  --ck-surface-muted: #E8EFF6;
   --ck-text: #102A43;
-  --ck-text-secondary: #5F6F64;
-  --ck-text-tertiary: #8A94A0;
-  --ck-border: #C9B68F;
-  --ck-border-light: #E4D8BE;
-  --ck-accent: #123C32;
-  --ck-accent-hover: #0D2E26;
-  --ck-success: #2E5E4E;
+  --ck-text-secondary: #65778B;
+  --ck-text-tertiary: #94A3B3;
+  --ck-border: #A7BDD4;
+  --ck-border-light: #C9D8E8;
+  --ck-accent: #427AB5;
+  --ck-accent-hover: #2F5F92;
+  --ck-teal: #1F6F5F;
+  --ck-success: #1F6F5F;
   --ck-radius: 14px;
   --ck-radius-sm: 10px;
   --ck-radius-pill: 980px;
-  --ck-shadow: 0 10px 30px rgba(16, 42, 67, 0.08);
+  --ck-shadow: 0 10px 30px rgba(66, 122, 181, 0.12);
   --ck-maxw: 980px;
 
   min-height: 100vh;
-  background: var(--ck-bg);
+  background:
+    radial-gradient(80% 70% at 0% 0%, rgba(76, 140, 228, 0.16), transparent 54%),
+    radial-gradient(70% 80% at 100% 8%, rgba(31, 111, 95, 0.13), transparent 58%),
+    var(--ck-bg);
   color: var(--ck-text);
   font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -28,7 +32,7 @@
 .page {
   max-width: var(--ck-maxw);
   margin: 0 auto;
-  padding: 48px 24px 80px;
+  padding: 58px 24px 88px;
 }
 
 .pageNarrow {
@@ -66,10 +70,10 @@
 
 /* Nav bar */
 .nav {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(16, 42, 67, 0.94);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid var(--ck-border-light);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -92,20 +96,28 @@
   font-size: 1.05rem;
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: var(--ck-text);
+  color: #fff;
   text-decoration: none;
   min-width: 110px;
 }
 
 .stepperLogoIcon {
-  width: 26px;
-  height: 26px;
-  border-radius: 7px;
-  background: var(--navy);
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #DDE4FF;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(76, 140, 228, 0.25);
+}
+
+.stepperLogoMark {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
 .stepperSteps {
@@ -114,35 +126,35 @@
   gap: 8px;
   font-size: 0.8125rem;
   font-weight: 500;
-  color: var(--ck-text-tertiary);
+  color: rgba(255, 255, 255, 0.54);
 }
 
 .stepperStep {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--ck-text-tertiary);
+  color: rgba(255, 255, 255, 0.62);
   text-decoration: none;
   transition: color 0.15s;
 }
 
 .stepperStep:hover {
-  color: var(--ck-accent);
+  color: #fff;
 }
 
 .stepperStepActive {
-  color: var(--ck-text);
+  color: #fff;
   font-weight: 600;
 }
 
 .stepperSep {
-  color: var(--ck-border);
+  color: rgba(255, 255, 255, 0.24);
   user-select: none;
 }
 
 .stepperSecure {
   font-size: 0.75rem;
-  color: var(--ck-text-tertiary);
+  color: rgba(255, 255, 255, 0.68);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -156,6 +168,7 @@
   border-radius: var(--ck-radius);
   border: 1px solid var(--ck-border-light);
   overflow: hidden;
+  box-shadow: var(--ck-shadow);
 }
 
 .item {
@@ -236,12 +249,14 @@
 
 /* Order summary sidebar */
 .summary {
-  background: var(--ck-surface);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(246, 248, 251, 0.96));
   border-radius: var(--ck-radius);
   border: 1px solid var(--ck-border-light);
   padding: 28px;
   position: sticky;
   top: 72px;
+  box-shadow: var(--ck-shadow);
 }
 
 .summaryTitle {
@@ -311,7 +326,7 @@
   width: 100%;
   margin-top: 24px;
   padding: 14px 24px;
-  background: var(--ck-accent);
+  background: linear-gradient(135deg, var(--ck-accent), var(--ck-teal));
   color: #fff;
   border: none;
   border-radius: var(--ck-radius-pill);
@@ -319,12 +334,14 @@
   font-weight: 500;
   letter-spacing: -0.01em;
   cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
+  box-shadow: 0 10px 24px rgba(66, 122, 181, 0.22);
+  transition: transform 0.1s, box-shadow 0.15s, filter 0.15s;
   text-decoration: none;
 }
 
 .primaryBtn:hover {
-  background: var(--ck-accent-hover);
+  filter: brightness(0.96);
+  box-shadow: 0 14px 30px rgba(66, 122, 181, 0.28);
 }
 
 .primaryBtn:active {
@@ -351,7 +368,8 @@
 }
 
 .secondaryBtn:hover {
-  background: var(--ck-surface-muted);
+  background: rgba(66, 122, 181, 0.08);
+  border-color: var(--ck-accent);
 }
 
 .helpText {
@@ -369,6 +387,7 @@
   border: 1px solid var(--ck-border-light);
   padding: 32px;
   margin-bottom: 20px;
+  box-shadow: 0 10px 28px rgba(66, 122, 181, 0.08);
 }
 
 .sectionTitle {
@@ -425,7 +444,7 @@
 .input:focus,
 .select:focus {
   border-color: var(--ck-accent);
-  box-shadow: 0 0 0 4px rgba(18, 60, 50, 0.15);
+  box-shadow: 0 0 0 4px rgba(66, 122, 181, 0.16);
 }
 
 .inputReadonly {
@@ -486,7 +505,7 @@
 
 .optionInput:checked + .optionLabel {
   border-color: var(--ck-accent);
-  background: rgba(18, 60, 50, 0.05);
+  background: rgba(66, 122, 181, 0.08);
   box-shadow: 0 0 0 1px var(--ck-accent);
 }
 
@@ -520,8 +539,8 @@
 }
 
 .optionInput:checked + .optionLabel .optionCheck {
-  background: var(--ck-accent);
-  border-color: var(--ck-accent);
+  background: var(--ck-teal);
+  border-color: var(--ck-teal);
 }
 
 .optionInput:checked + .optionLabel .optionCheck::after {
@@ -536,12 +555,12 @@
   display: flex;
   gap: 10px;
   padding: 14px 16px;
-  background: #fff8e6;
-  border: 1px solid #ffe082;
+  background: rgba(76, 140, 228, 0.08);
+  border: 1px solid rgba(76, 140, 228, 0.22);
   border-radius: var(--ck-radius-sm);
   margin-bottom: 20px;
   font-size: 0.875rem;
-  color: #7a6200;
+  color: var(--ck-text);
   line-height: 1.45;
 }
 
@@ -579,6 +598,7 @@
   background: var(--ck-surface);
   border-radius: var(--ck-radius);
   border: 1px solid var(--ck-border-light);
+  box-shadow: var(--ck-shadow);
 }
 
 .emptyIcon {
@@ -619,7 +639,7 @@
   height: 72px;
   margin: 0 auto 24px;
   border-radius: 50%;
-  background: var(--ck-success);
+  background: linear-gradient(135deg, var(--ck-teal), var(--ck-accent));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -655,6 +675,7 @@
   border: 1px solid var(--ck-border-light);
   padding: 32px;
   margin-bottom: 32px;
+  box-shadow: var(--ck-shadow);
 }
 
 .receiptHeader {
@@ -770,6 +791,7 @@
   border: 1px solid var(--ck-border-light);
   max-width: 480px;
   margin: 0 auto;
+  box-shadow: var(--ck-shadow);
 }
 
 .processingSpinner {

@@ -22,6 +22,11 @@ export const metadata = {
   title: "OfCourt — Premium Badminton Rackets, Chosen by Players",
   description:
     "Shop pro-grade badminton rackets for power, speed, and control. Expert guidance, custom stringing, free shipping over $100, and secure checkout.",
+  icons: {
+    icon: "/ofcourt.svg",
+    shortcut: "/ofcourt.svg",
+    apple: "/ofcourt.svg",
+  },
 };
 
 export default function RootLayout({ children }) {

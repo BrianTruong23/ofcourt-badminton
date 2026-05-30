@@ -186,7 +186,7 @@ export default function RacketFinder() {
               <article key={listing.id} className={styles.resultCard}>
                 {idx === 0 && <span className={styles.topPick}>Top match</span>}
                 <Link href={`/listing/${listing.id}`} className={styles.resultMedia} aria-label={`View ${listing.title}`}>
-                  <RacketIcon color={listing.color || '#102A43'} className={styles.resultRacket} />
+                  <RacketIcon color={listing.color || '#427AB5'} className={styles.resultRacket} />
                 </Link>
                 <div className={styles.resultBody}>
                   <span className={styles.resultBrand}>{listing.brand}</span>

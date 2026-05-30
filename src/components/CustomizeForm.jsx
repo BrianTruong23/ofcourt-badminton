@@ -59,7 +59,7 @@ export default function CustomizeForm({ listing }) {
                 background: `radial-gradient(70% 70% at 50% 35%, ${listing.color}1a, transparent 70%), linear-gradient(160deg, var(--cream-card), var(--cream-deep))`,
               }}
             >
-              <RacketIcon color={listing.color || '#102A43'} className={styles.stageRacket} />
+              <RacketIcon color={listing.color || '#427AB5'} className={styles.stageRacket} />
             </div>
             <div className={styles.quickSpecs}>
               <h3 className={styles.quickTitle}>Quick specs</h3>

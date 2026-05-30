@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import SiteMark from '../SiteMark';
 import CheckoutStepper from './CheckoutStepper';
 import styles from '../../styles/checkout.module.css';
 
@@ -8,10 +9,7 @@ export default function CheckoutNav({ current = 'bag' }) {
       <div className={styles.navInner}>
         <Link href="/" className={styles.stepperLogo}>
           <span className={styles.stepperLogoIcon} aria-hidden="true">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <ellipse cx="11" cy="8" rx="6.5" ry="7" />
-              <path d="M6.5 13.5 L4 21" />
-            </svg>
+            <SiteMark title="" className={styles.stepperLogoMark} />
           </span>
           OfCourt
         </Link>

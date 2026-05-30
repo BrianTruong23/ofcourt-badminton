@@ -49,7 +49,7 @@ export default function ListingCard({ listing }) {
             loading="lazy"
           />
         ) : (
-          <RacketIcon color={listing.color || '#102A43'} className={styles.racketMark} />
+          <RacketIcon color={listing.color || '#427AB5'} className={styles.racketMark} />
         )}
       </Link>
 

@@ -1,46 +1,44 @@
 :root {
   /* =====================================================================
-     Brand: "Premium neighborhood badminton pro shop"
-     Court-green identity, warm cream surfaces, navy ink.
-     Orange is intentionally SPARSE: amber (--accent) for tiny highlights,
-     burnt orange (--sale-accent) for sale/alert moments only.
+     Brand: professional, energetic badminton retail.
+     Blue builds trust, teal adds court-sport depth, vivid blue stays playful.
      ===================================================================== */
 
   /* ---- Core brand tokens ---- */
-  --primary: #0A221C;        /* Rich, deep editorial court green */
-  --primary-hover: #071713;
-  --primary-soft: rgba(10, 34, 28, 0.08);
+  --primary: #427AB5;        /* Confident brand blue */
+  --primary-hover: #2F5F92;
+  --primary-soft: rgba(66, 122, 181, 0.11);
 
-  --accent: #E6A728;         /* warm amber — sparse highlights only */
-  --accent-soft: rgba(230, 167, 40, 0.16);
-  --sale-accent: #B85B12;    /* burnt orange — sale prices / alerts only */
-  --sale-soft: rgba(184, 91, 18, 0.12);
+  --accent: #4C8CE4;         /* Vivid blue for playful highlights */
+  --accent-soft: rgba(76, 140, 228, 0.2);
+  --sale-accent: #1F6F5F;    /* Teal emphasis for prices / alerts */
+  --sale-soft: rgba(31, 111, 95, 0.12);
 
-  --muted: #647069;
+  --muted: #637389;
 
   /* ---- Ink (text + headings) ---- */
-  --navy: #0B1926;           /* Deeper, near-black navy for stark contrast */
-  --navy-800: #102436;
-  --navy-700: #163047;
-  --navy-600: #1E4261;
-  --navy-soft: rgba(11, 25, 38, 0.06);
+  --navy: #102A43;           /* Deep blue ink for contrast */
+  --navy-800: #173B5D;
+  --navy-700: #22567F;
+  --navy-600: #427AB5;
+  --navy-soft: rgba(66, 122, 181, 0.08);
 
-  /* ---- Warm cream surfaces ---- */
-  --cream: #F5F3EC;          /* Cooler, editorial off-white / newsprint */
-  --cream-deep: #EBE5DB;
-  --cream-card: #FAF9F5;
+  /* ---- Clean sport-retail surfaces ---- */
+  --cream: #F6F8FB;
+  --cream-deep: #E8EFF6;
+  --cream-card: #FFFFFF;
 
-  --charcoal: #182026;
-  --text: #162635;
-  --text-soft: #424D58;
-  --text-muted: #627180;
-  --text-faint: #929EA8;
+  --charcoal: #13263A;
+  --text: #172B3F;
+  --text-soft: #43566B;
+  --text-muted: #65778B;
+  --text-faint: #94A3B3;
 
-  /* ---- Court green family (legacy --green-* now = brand green) ---- */
-  --green: #0A221C;
-  --green-dark: #071713;
-  --green-mid: #1A473D;
-  --green-soft: rgba(10, 34, 28, 0.08);
+  /* ---- Teal family ---- */
+  --green: #1F6F5F;
+  --green-dark: #155548;
+  --green-mid: #2C8A77;
+  --green-soft: rgba(31, 111, 95, 0.1);
 
   /* ---- Legacy --orange-* now drives PRIMARY (green) CTAs.
      Kept as aliases so existing components recolor in one place.
@@ -51,18 +49,18 @@
 
   --gold: var(--accent);
 
-  --border: #D9C7A7;
-  --border-strong: #C9B68F;
-  --border-navy: rgba(16, 42, 67, 0.12);
+  --border: #C9D8E8;
+  --border-strong: #A7BDD4;
+  --border-navy: rgba(66, 122, 181, 0.16);
 
   --white: #ffffff;
 
   /* Surfaces */
   --bg: var(--cream);
   --bg-elevated: var(--cream-deep);
-  --surface: #FFFDF7;
+  --surface: #FFFFFF;
   --surface-muted: var(--cream-card);
-  --chip-bg: #EFE5D2;
+  --chip-bg: #E5F0FA;
   --bg-card: var(--white);
   --bg-card-hover: var(--cream-card);
 
@@ -76,9 +74,9 @@
 
   /* ===== Soft, warm shadows ===== */
   --shadow-xs: 0 1px 2px rgba(16, 42, 67, 0.05);
-  --shadow-sm: 0 1px 3px rgba(16, 42, 67, 0.06), 0 4px 12px rgba(16, 42, 67, 0.04);
-  --shadow-md: 0 10px 30px rgba(16, 42, 67, 0.08);
-  --shadow-lg: 0 24px 60px rgba(16, 42, 67, 0.12);
+  --shadow-sm: 0 1px 3px rgba(16, 42, 67, 0.06), 0 4px 12px rgba(66, 122, 181, 0.06);
+  --shadow-md: 0 10px 30px rgba(66, 122, 181, 0.12);
+  --shadow-lg: 0 24px 60px rgba(16, 42, 67, 0.14);
 
   --maxw: 1180px;
 
@@ -96,7 +94,7 @@
   --secondary: var(--accent);
   --background: var(--cream);
   --text-light: var(--text-muted);
-  --graphite-950: #0d2236;
+  --graphite-950: #102A43;
   --graphite-900: var(--navy);
   --graphite-800: var(--navy-800);
   --graphite-700: var(--text-soft);

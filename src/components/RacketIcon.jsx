@@ -2,7 +2,7 @@
  * Reusable badminton racket illustration.
  * Renders an SVG line-art racket tinted with the provided color.
  */
-export default function RacketIcon({ color = '#102A43', className, strokeWidth = 3 }) {
+export default function RacketIcon({ color = '#427AB5', className, strokeWidth = 3 }) {
   return (
     <svg className={className} viewBox="0 0 90 230" fill="none" aria-hidden="true">
       {/* Head */}

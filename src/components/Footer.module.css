@@ -1,5 +1,6 @@
 .footer {
-  background: var(--primary);
+  background:
+    linear-gradient(135deg, var(--navy) 0%, var(--primary-hover) 55%, var(--green-dark) 100%);
   color: rgba(250, 247, 239, 0.85);
   padding: 72px 0 32px;
 }
@@ -33,11 +34,19 @@
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: var(--accent);
-  color: var(--primary);
+  background: #DDE4FF;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(76, 140, 228, 0.25);
+}
+
+.logoMark {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
 .logoText {

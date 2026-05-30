@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import SiteMark from './SiteMark';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -11,10 +12,7 @@ export default function Footer() {
           <div className={styles.brand}>
             <Link href="/" className={styles.logo}>
               <span className={styles.logoIcon} aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <ellipse cx="11" cy="8" rx="6.5" ry="7" />
-                  <path d="M6.5 13.5 L4 21" />
-                </svg>
+                <SiteMark title="" className={styles.logoMark} />
               </span>
               <span className={styles.logoText}>OfCourt</span>
             </Link>

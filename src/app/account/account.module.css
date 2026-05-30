@@ -129,14 +129,14 @@
   background: var(--primary);
   color: #fff;
   border: 1px solid var(--primary);
-  box-shadow: 0 6px 18px rgba(18, 60, 50, 0.22);
+  box-shadow: 0 6px 18px rgba(31, 111, 95, 0.22);
 }
 
 .primaryButton:hover {
   background: var(--primary-hover);
   border-color: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(18, 60, 50, 0.3);
+  box-shadow: 0 10px 26px rgba(31, 111, 95, 0.3);
 }
 
 .secondaryButton {
@@ -147,7 +147,7 @@
 
 .secondaryButton:hover {
   background: var(--sale-soft);
-  border-color: rgba(201, 106, 27, 0.4);
+  border-color: rgba(31, 111, 95, 0.4);
 }
 
 .loading {

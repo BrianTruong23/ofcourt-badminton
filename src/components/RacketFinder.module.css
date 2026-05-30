@@ -107,13 +107,13 @@
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 6px 20px rgba(18, 60, 50, 0.28);
+  box-shadow: 0 6px 20px rgba(31, 111, 95, 0.28);
 }
 
 .submitBtn:hover:not(:disabled) {
   background: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(18, 60, 50, 0.36);
+  box-shadow: 0 10px 28px rgba(31, 111, 95, 0.36);
 }
 
 .submitBtn:disabled {

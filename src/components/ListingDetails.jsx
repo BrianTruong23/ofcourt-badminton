@@ -72,7 +72,7 @@ export default function ListingDetails({ listing }) {
                   priority
                 />
               ) : (
-                <RacketIcon color={listing.color || '#102A43'} className={styles.stageRacket} />
+                <RacketIcon color={listing.color || '#427AB5'} className={styles.stageRacket} />
               )}
             </div>
           </div>

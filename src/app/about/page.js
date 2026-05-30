@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import CTAButton from '../../components/CTAButton';
+import SiteMark from '../../components/SiteMark';
 import styles from '../../styles/info.module.css';
 
 export const metadata = {
@@ -13,7 +14,7 @@ const values = [
     title: 'Players, not resellers',
     text: 'We play the game and stock the frames we would put in our own bags.',
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="11" cy="8" rx="6.5" ry="7" /><path d="M6.5 13.5 L4 21" /></svg>
+      <SiteMark title="" className={styles.valueMark} />
     ),
   },
   {
