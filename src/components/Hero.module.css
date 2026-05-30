@@ -6,7 +6,7 @@
 
 .banner {
   position: relative;
-  min-height: clamp(560px, 66vh, 760px);
+  min-height: clamp(480px, 55vh, 620px);
   width: 100%;
   overflow: hidden;
   isolation: isolate;
@@ -55,14 +55,14 @@
 .copy {
   position: absolute;
   z-index: 2;
+  top: clamp(44px, 7vh, 78px);
   left: clamp(24px, 5vw, 78px);
-  bottom: clamp(58px, 8vw, 122px);
-  width: min(690px, calc(100% - 48px));
+  width: min(650px, calc(100% - 48px));
   color: #fff;
 }
 
 .eyebrow {
-  margin-bottom: 22px;
+  margin-bottom: 18px;
   color: var(--accent);
   font-size: 0.84rem;
   font-weight: 800;
@@ -71,16 +71,16 @@
 }
 
 .title {
-  max-width: 720px;
+  max-width: 680px;
   color: #fff;
-  font-size: clamp(2.7rem, 4.45vw, 5.3rem);
+  font-size: clamp(2.55rem, 3.35vw, 4.35rem);
   line-height: 1.08;
   letter-spacing: 0;
   text-wrap: balance;
 }
 
 .caption {
-  margin-top: 24px;
+  margin-top: 20px;
   max-width: 560px;
   color: rgba(255, 255, 255, 0.82);
   font-size: clamp(1rem, 1.25vw, 1.18rem);
@@ -89,7 +89,7 @@
 }
 
 .findButton {
-  margin-top: 36px;
+  margin-top: 28px;
   display: inline-flex;
   min-width: min(100%, 250px);
   min-height: 58px;
@@ -183,14 +183,14 @@
 .previewStrip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  min-height: 112px;
+  min-height: 84px;
   background: #102a43;
 }
 
 .preview {
   position: relative;
   display: flex;
-  min-height: 112px;
+  min-height: 84px;
   align-items: flex-end;
   overflow: hidden;
   border: 0;
@@ -199,7 +199,7 @@
   background: transparent;
   cursor: pointer;
   isolation: isolate;
-  padding: 18px clamp(16px, 2vw, 28px);
+  padding: 14px clamp(16px, 2vw, 28px);
   text-align: left;
 }
 
@@ -248,7 +248,7 @@
 }
 
 .colorBar {
-  height: 40px;
+  height: 30px;
   background:
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 54px),
     linear-gradient(90deg, var(--primary), var(--green));
@@ -260,7 +260,7 @@
   }
 
   .banner {
-    min-height: 620px;
+    min-height: 560px;
   }
 
   .shade {
@@ -270,7 +270,7 @@
   }
 
   .copy {
-    bottom: 72px;
+    top: 48px;
   }
 
   .navButton {
@@ -293,11 +293,11 @@
   }
 
   .previewStrip {
-    min-height: 88px;
+    min-height: 76px;
   }
 
   .preview {
-    min-height: 88px;
+    min-height: 76px;
     padding: 14px 16px;
   }
 
@@ -308,12 +308,12 @@
 
 @media (max-width: 620px) {
   .banner {
-    min-height: 590px;
+    min-height: 570px;
   }
 
   .copy {
+    top: 42px;
     left: 20px;
-    bottom: 94px;
     width: calc(100% - 40px);
   }
 
@@ -323,7 +323,7 @@
   }
 
   .title {
-    font-size: clamp(2.25rem, 10vw, 3.35rem);
+    font-size: clamp(2.1rem, 9vw, 3rem);
   }
 
   .caption {
@@ -332,7 +332,7 @@
   }
 
   .findButton {
-    margin-top: 28px;
+    margin-top: 24px;
     min-height: 54px;
     width: 100%;
   }

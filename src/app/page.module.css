@@ -29,7 +29,7 @@
 .brandTicker {
   background: var(--navy);
   overflow: hidden;
-  padding: 15px 0;
+  padding: 12px 0;
   border-bottom: 1px solid rgba(16, 42, 67, 0.6);
   user-select: none;
 }
@@ -43,7 +43,7 @@
 
 .tickerItem {
   font-family: var(--font-display), Georgia, serif;
-  font-size: 1.04rem;
+  font-size: 0.98rem;
   font-weight: 600;
   color: rgba(250, 247, 239, 0.42);
   padding: 0 32px;
