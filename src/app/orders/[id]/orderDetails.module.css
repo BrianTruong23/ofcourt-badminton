@@ -16,37 +16,38 @@
 .backLink {
   display: inline-block;
   margin-bottom: 16px;
-  color: #64748b;
+  color: var(--text-muted);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s;
 }
 
 .backLink:hover {
-  color: #0f172a;
+  color: var(--green-dark);
 }
 
 .title {
   font-size: 2rem;
-  color: #0f172a;
+  color: var(--navy);
   margin-bottom: 8px;
 }
 
 .subtitle {
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 1.1rem;
 }
 
 .content {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
 
 .section {
   padding: 32px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--border);
 }
 
 .section:last-child {
@@ -55,10 +56,10 @@
 
 .sectionTitle {
   font-size: 1.25rem;
-  color: #0f172a;
+  color: var(--navy);
   margin-bottom: 24px;
   padding-bottom: 12px;
-  border-bottom: 2px solid #f1f5f9;
+  border-bottom: 2px solid var(--cream-deep);
 }
 
 .infoGrid {
@@ -74,14 +75,14 @@
 
 .label {
   font-size: 0.875rem;
-  color: #64748b;
+  color: var(--text-muted);
   margin-bottom: 4px;
   font-weight: 500;
 }
 
 .value {
   font-size: 1rem;
-  color: #0f172a;
+  color: var(--navy);
   font-weight: 500;
 }
 
@@ -108,23 +109,23 @@
 
 .productName {
   font-weight: 600;
-  color: #334155;
+  color: var(--text-soft);
   margin-bottom: 4px;
 }
 
 .productMeta {
   font-size: 0.9rem;
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .productTotal {
-  font-weight: 600;
-  color: #0f172a;
+  font-weight: 700;
+  color: var(--navy);
   font-size: 1.1rem;
 }
 
 .emptyText {
-  color: #94a3b8;
+  color: var(--text-faint);
   font-style: italic;
   text-align: center;
   padding: 20px;
@@ -132,13 +133,13 @@
 
 .actions {
   padding: 32px;
-  background: #fff1f2;
-  border-top: 1px solid #fecdd3;
+  background: var(--sale-soft);
+  border-top: 1px solid rgba(201, 106, 27, 0.2);
   text-align: center;
 }
 
 .cancelNote {
   margin-top: 12px;
-  color: #be123c;
+  color: var(--sale-accent);
   font-size: 0.9rem;
 }

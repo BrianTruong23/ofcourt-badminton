@@ -61,21 +61,30 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background: linear-gradient(160deg, var(--cream-card), var(--cream-deep));
 }
 
 .galleryTag {
   position: absolute;
   top: 20px;
   left: 20px;
+  z-index: 2;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--navy);
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.9);
   border: 1px solid var(--border);
   padding: 6px 13px;
   border-radius: var(--radius-pill);
+  backdrop-filter: blur(6px);
+}
+
+/* Real product photo */
+.stagePhoto {
+  object-fit: cover;
+  object-position: center;
 }
 
 .stageRacket {
@@ -84,21 +93,11 @@
   filter: drop-shadow(0 20px 36px rgba(16, 42, 67, 0.2));
 }
 
-.galleryNote {
-  margin-top: 14px;
-  text-align: center;
-  font-size: 0.78rem;
-  color: var(--text-faint);
-  font-style: italic;
-}
-
 /* Buy column */
 .buyColumn {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  box-shadow: var(--shadow-sm);
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 .series {
@@ -215,13 +214,13 @@
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-  box-shadow: 0 6px 18px rgba(217, 119, 6, 0.26);
+  box-shadow: 0 6px 18px rgba(18, 60, 50, 0.26);
 }
 
 .addBtn:hover {
   background: var(--orange-dark);
   transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(217, 119, 6, 0.32);
+  box-shadow: 0 10px 26px rgba(18, 60, 50, 0.32);
 }
 
 .assurances {
@@ -256,11 +255,12 @@
 }
 
 .detailBlock {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  box-shadow: var(--shadow-xs);
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.detailBlock:last-child {
+  border-bottom: none;
 }
 
 .detailTitle {

@@ -12,19 +12,20 @@
 
 .header h1 {
   font-size: 2rem;
-  color: #0f172a;
+  color: var(--navy);
   margin-bottom: 8px;
 }
 
 .header p {
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .error {
   padding: 16px;
-  background-color: #fee2e2;
-  color: #991b1b;
-  border-radius: 8px;
+  background-color: var(--sale-soft);
+  color: var(--sale-accent);
+  border: 1px solid rgba(201, 106, 27, 0.22);
+  border-radius: var(--radius-xs);
   margin-bottom: 24px;
   text-align: center;
 }
@@ -38,7 +39,7 @@
 }
 
 .empty h2 {
-  color: #0f172a;
+  color: var(--navy);
   margin: 16px 0 8px;
 }
 
@@ -46,16 +47,19 @@
   display: inline-block;
   margin-top: 24px;
   padding: 12px 24px;
-  background: var(--orange);
-  color: white;
-  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: var(--radius-pill);
   text-decoration: none;
-  font-weight: 500;
-  transition: background 0.2s;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 6px 18px rgba(18, 60, 50, 0.22);
 }
 
 .shopButton:hover {
-  background: var(--orange-dark);
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(18, 60, 50, 0.3);
 }
 
 .ordersList {
@@ -76,16 +80,17 @@
 }
 
 .orderCard {
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  transition: box-shadow 0.2s;
+  box-shadow: var(--shadow-xs);
+  transition: box-shadow 0.2s, border-color 0.2s;
 }
 
 .orderCardLink:hover .orderCard {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
 }
 
 .orderHeader {
@@ -110,25 +115,25 @@
 
 .viewDetails {
   font-size: 0.9rem;
-  color: #64748b;
-  font-weight: 500;
+  color: var(--green-dark);
+  font-weight: 600;
 }
 
 .orderHeader h3 {
   font-size: 1rem;
-  color: #0f172a;
+  color: var(--navy);
   margin-bottom: 4px;
 }
 
 .orderDate {
   font-size: 0.875rem;
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 .orderTotal {
   font-size: 1.125rem;
-  font-weight: 600;
-  color: #0f172a;
+  font-weight: 700;
+  color: var(--navy);
 }
 
 .orderPreview {
@@ -146,6 +151,6 @@
 }
 
 .label {
-  color: #64748b;
+  color: var(--text-muted);
   font-weight: 500;
 }

@@ -1,6 +1,8 @@
 .main {
   min-height: 100vh;
-  background: var(--cream);
+  background:
+    radial-gradient(80% 100% at 50% 0%, var(--green-soft), transparent 60%),
+    var(--cream);
   padding-bottom: 80px;
 }
 
@@ -11,23 +13,23 @@
 }
 
 .card {
-  background: white;
+  background: var(--surface);
   padding: 48px;
-  border-radius: 24px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
 }
 
 .title {
   font-size: 2rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--navy);
   margin-bottom: 8px;
   text-align: center;
 }
 
 .subtitle {
-  color: #64748b;
+  color: var(--text-muted);
   text-align: center;
   margin-bottom: 32px;
 }
@@ -36,9 +38,9 @@
   display: flex;
   gap: 8px;
   margin-bottom: 32px;
-  background: #f1f5f9;
+  background: var(--cream-deep);
   padding: 4px;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
 }
 
 .tab {
@@ -46,17 +48,17 @@
   padding: 12px;
   background: transparent;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-xs);
   font-weight: 600;
-  color: #64748b;
+  color: var(--text-muted);
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .tab.active {
-  background: white;
-  color: #0f172a;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  background: var(--white);
+  color: var(--navy);
+  box-shadow: var(--shadow-xs);
 }
 
 .form {
@@ -74,43 +76,49 @@
 .label {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #475569;
+  color: var(--text-soft);
 }
 
 .input {
-  padding: 12px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-xs);
   font-size: 1rem;
+  font-family: inherit;
+  color: var(--navy);
+  background: var(--white);
   transition: all 0.2s;
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--green);
+  border-color: var(--primary);
   box-shadow: 0 0 0 3px var(--green-soft);
 }
 
 .submitBtn {
-  background: var(--orange);
-  color: white;
+  background: var(--primary);
+  color: #fff;
   padding: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-pill);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   margin-top: 8px;
   transition: all 0.2s;
+  box-shadow: 0 6px 18px rgba(18, 60, 50, 0.24);
 }
 
 .submitBtn:hover {
-  background: var(--orange-dark);
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(18, 60, 50, 0.32);
 }
 
 .divider {
   text-align: center;
-  color: #94a3b8;
+  color: var(--text-faint);
   margin: 24px 0;
   position: relative;
 }
@@ -122,7 +130,7 @@
   top: 50%;
   width: 45%;
   height: 1px;
-  background: #e2e8f0;
+  background: var(--border);
 }
 
 .divider::before {
@@ -134,11 +142,11 @@
 }
 
 .guestBtn {
-  background: white;
-  color: #475569;
+  background: var(--white);
+  color: var(--primary);
   padding: 16px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-pill);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -146,6 +154,7 @@
 }
 
 .guestBtn:hover {
-  background: #f8fafc;
-  border-color: #94a3b8;
+  background: var(--cream);
+  border-color: var(--primary);
+  transform: translateY(-2px);
 }

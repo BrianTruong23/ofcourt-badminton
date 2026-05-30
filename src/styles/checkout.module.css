@@ -1,17 +1,17 @@
 /* Apple-inspired checkout design system */
 
 .shell {
-  --ck-bg: #F7F3EA;
-  --ck-surface: #ffffff;
-  --ck-surface-muted: #FCFAF4;
+  --ck-bg: #FAF7EF;
+  --ck-surface: #FFFDF7;
+  --ck-surface-muted: #F4EEDF;
   --ck-text: #102A43;
-  --ck-text-secondary: #52606D;
+  --ck-text-secondary: #5F6F64;
   --ck-text-tertiary: #8A94A0;
-  --ck-border: #D8CDB5;
-  --ck-border-light: #E7DFCD;
-  --ck-accent: #D97706;
-  --ck-accent-hover: #B45309;
-  --ck-success: #6F8F72;
+  --ck-border: #C9B68F;
+  --ck-border-light: #E4D8BE;
+  --ck-accent: #123C32;
+  --ck-accent-hover: #0D2E26;
+  --ck-success: #2E5E4E;
   --ck-radius: 14px;
   --ck-radius-sm: 10px;
   --ck-radius-pill: 980px;
@@ -425,7 +425,7 @@
 .input:focus,
 .select:focus {
   border-color: var(--ck-accent);
-  box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.16);
+  box-shadow: 0 0 0 4px rgba(18, 60, 50, 0.15);
 }
 
 .inputReadonly {
@@ -486,7 +486,7 @@
 
 .optionInput:checked + .optionLabel {
   border-color: var(--ck-accent);
-  background: rgba(217, 119, 6, 0.06);
+  background: rgba(18, 60, 50, 0.05);
   box-shadow: 0 0 0 1px var(--ck-accent);
 }
 

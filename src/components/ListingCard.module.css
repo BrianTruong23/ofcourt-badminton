@@ -1,42 +1,48 @@
 .card {
   display: flex;
   flex-direction: column;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  background: transparent;
+  border: none;
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  box-shadow: none;
+  transition: transform 0.25s ease;
   height: 100%;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--border-strong);
+  transform: translateY(-4px);
 }
 
 .media {
   position: relative;
-  height: 248px;
+  height: 280px; /* Slightly taller for editorial feel */
   display: flex;
   align-items: center;
   justify-content: center;
-  background:
-    radial-gradient(70% 70% at 50% 30%, rgba(16, 42, 67, 0.05), transparent 70%),
-    linear-gradient(160deg, var(--cream-card), var(--cream-deep));
-  border-bottom: 1px solid var(--border);
+  background: var(--cream-card); /* Just a very subtle soft background for the image to sit on */
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+/* Real product photo */
+.productPhoto {
+  object-fit: cover;
+  transition: transform 0.42s ease;
+}
+
+.card:hover .productPhoto {
+  transform: scale(1.04);
 }
 
 .racketMark {
-  height: 200px;
+  height: 210px;
   width: auto;
-  transition: transform 0.35s ease;
-  filter: drop-shadow(0 10px 20px rgba(16, 42, 67, 0.14));
+  transition: transform 0.38s ease;
+  filter: drop-shadow(0 12px 24px rgba(16, 42, 67, 0.16));
 }
 
 .card:hover .racketMark {
-  transform: translateY(-4px) rotate(-3deg);
+  transform: translateY(-5px) rotate(-4deg);
 }
 
 .levelTag {
@@ -45,7 +51,7 @@
   left: 14px;
   font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--green-dark);
   background: var(--green-soft);
@@ -57,19 +63,19 @@
   position: absolute;
   top: 14px;
   right: 14px;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--navy);
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.9);
   border: 1px solid var(--border);
-  padding: 5px 11px;
+  padding: 5px 10px;
   border-radius: var(--radius-pill);
 }
 
 .content {
-  padding: 20px 22px 22px;
+  padding: 16px 4px 0; /* Minimal padding since the card itself has no border */
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -87,18 +93,19 @@
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.08em;
   color: var(--text-faint);
 }
 
 .styleTag {
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--orange-dark);
+  color: var(--sale-accent);
+  letter-spacing: 0.04em;
 }
 
 .title {
-  font-size: 1.22rem;
+  font-size: 1.24rem;
   line-height: 1.2;
   color: var(--navy);
 }
@@ -109,8 +116,8 @@
 
 .benefit {
   margin-top: 8px;
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 0.88rem;
+  line-height: 1.55;
   color: var(--text-muted);
 }
 
@@ -132,8 +139,22 @@
   border-radius: var(--radius-pill);
 }
 
+.tension {
+  margin-top: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+.tension svg {
+  color: var(--green-dark);
+}
+
 .ratingRow {
-  margin-top: 14px;
+  margin-top: 12px;
   min-height: 20px;
 }
 
@@ -160,6 +181,8 @@
   font-size: 0.74rem;
   font-weight: 600;
   color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .footer {
@@ -174,9 +197,10 @@
 
 .price {
   font-family: var(--font-display), Georgia, serif;
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   font-weight: 700;
   color: var(--navy);
+  letter-spacing: -0.01em;
 }
 
 .cta {
@@ -203,7 +227,7 @@
 }
 
 .addButton {
-  background: var(--navy);
+  background: var(--primary);
   color: #fff;
   border: none;
   padding: 9px 16px;
@@ -216,7 +240,7 @@
 }
 
 .addButton:hover {
-  background: var(--orange);
+  background: var(--primary-hover);
   transform: translateY(-1px);
 }
 
@@ -225,9 +249,11 @@
     flex-direction: column;
     align-items: stretch;
   }
+
   .cta {
     justify-content: space-between;
   }
+
   .viewButton,
   .addButton {
     flex: 1;

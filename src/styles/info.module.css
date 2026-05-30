@@ -318,7 +318,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, transform 0.15s;
-  box-shadow: 0 6px 18px rgba(217, 119, 6, 0.24);
+  box-shadow: 0 6px 18px rgba(18, 60, 50, 0.24);
 }
 
 .submitBtn:hover {

@@ -11,16 +11,16 @@ export default function ShippingPage() {
           </p>
           
           <section style={{ marginBottom: '2rem' }}>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '1rem', color: '#0f172a' }}>Shipping Rates</h2>
-            <ul style={{ listStyle: 'disc', paddingLeft: '1.5rem', color: '#334155' }}>
+            <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '1rem', color: 'var(--navy)' }}>Shipping Rates</h2>
+            <ul style={{ listStyle: 'disc', paddingLeft: '1.5rem', color: 'var(--text-soft)' }}>
               <li style={{ marginBottom: '0.5rem' }}>Standard Shipping (3-5 business days): $10.00</li>
               <li style={{ marginBottom: '0.5rem' }}>Free Pickup in Tampa, FL</li>
             </ul>
           </section>
 
           <section>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '1rem', color: '#0f172a' }}>Delivery Times</h2>
-            <p style={{ color: '#334155', lineHeight: '1.6' }}>
+            <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '1rem', color: 'var(--navy)' }}>Delivery Times</h2>
+            <p style={{ color: 'var(--text-soft)', lineHeight: '1.6' }}>
               Orders are processed within 1-2 business days. Delivery times depend on your location and the shipping method selected.
               You will receive a tracking number via email once your order ships.
             </p>

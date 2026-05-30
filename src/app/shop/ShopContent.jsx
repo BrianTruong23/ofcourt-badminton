@@ -96,58 +96,87 @@ export default function ShopContent() {
           ))}
         </div>
 
-        <div className={styles.toolbar}>
-          <div className={styles.control}>
-            <label htmlFor="brand-filter" className={styles.controlLabel}>Brand</label>
-            <select
-              id="brand-filter"
-              value={selectedBrand}
-              onChange={(e) => setSelectedBrand(e.target.value)}
-              className={styles.select}
-            >
-              {brands.map((brand) => (
-                <option key={brand} value={brand}>
-                  {brand === 'all' ? 'All brands' : brand}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className={styles.shopLayout}>
+          <aside className={styles.sidebar}>
+            <div className={styles.filterGroup}>
+              <h3 className={styles.filterTitle}>Brand</h3>
+              <div className={styles.filterOptions}>
+                {brands.map((brand) => (
+                  <label key={brand} className={styles.filterOption}>
+                    <input
+                      type="radio"
+                      name="brand"
+                      value={brand}
+                      checked={selectedBrand === brand}
+                      onChange={(e) => setSelectedBrand(e.target.value)}
+                    />
+                    {brand === 'all' ? 'All brands' : brand}
+                  </label>
+                ))}
+              </div>
+            </div>
 
-          <div className={styles.control}>
-            <label htmlFor="sort-by" className={styles.controlLabel}>Sort by</label>
-            <select
-              id="sort-by"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className={styles.select}
-            >
-              <option value="featured">Featured</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="name">Name: A to Z</option>
-            </select>
-          </div>
+            <div className={styles.filterGroup}>
+              <h3 className={styles.filterTitle}>Sort by</h3>
+              <div className={styles.filterOptions}>
+                <label className={styles.filterOption}>
+                  <input
+                    type="radio"
+                    name="sort"
+                    value="featured"
+                    checked={sortBy === 'featured'}
+                    onChange={(e) => setSortBy(e.target.value)}
+                  />
+                  Featured
+                </label>
+                <label className={styles.filterOption}>
+                  <input
+                    type="radio"
+                    name="sort"
+                    value="price-asc"
+                    checked={sortBy === 'price-asc'}
+                    onChange={(e) => setSortBy(e.target.value)}
+                  />
+                  Price: Low to High
+                </label>
+                <label className={styles.filterOption}>
+                  <input
+                    type="radio"
+                    name="sort"
+                    value="price-desc"
+                    checked={sortBy === 'price-desc'}
+                    onChange={(e) => setSortBy(e.target.value)}
+                  />
+                  Price: High to Low
+                </label>
+              </div>
+            </div>
+          </aside>
 
-          <span className={styles.resultCount}>
-            {filteredListings.length} {filteredListings.length === 1 ? 'racket' : 'rackets'}
-          </span>
+          <div className={styles.mainContent}>
+            <div className={styles.resultHeader}>
+              <span className={styles.resultCount}>
+                {filteredListings.length} {filteredListings.length === 1 ? 'racket' : 'rackets'}
+              </span>
+            </div>
+
+            {filteredListings.length > 0 ? (
+              <div className={styles.grid}>
+                {filteredListings.map((listing) => (
+                  <ListingCard key={listing.id} listing={listing} />
+                ))}
+              </div>
+            ) : (
+              <div className={styles.noResults}>
+                <h2>No rackets found</h2>
+                <p>
+                  Try a different style or brand, or{' '}
+                  <Link href="/shop">browse all rackets</Link>.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-
-        {filteredListings.length > 0 ? (
-          <div className={styles.grid}>
-            {filteredListings.map((listing) => (
-              <ListingCard key={listing.id} listing={listing} />
-            ))}
-          </div>
-        ) : (
-          <div className={styles.noResults}>
-            <h2>No rackets found</h2>
-            <p>
-              Try a different style or brand, or{' '}
-              <Link href="/shop">browse all rackets</Link>.
-            </p>
-          </div>
-        )}
       </div>
     </main>
   );

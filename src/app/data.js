@@ -43,6 +43,7 @@ export const listings = [
     series: "Astrox Series",
     brand: "Yonex",
     price: "$260",
+    image: "https://images.pexels.com/photos/8496267/pexels-photo-8496267.jpeg?auto=compress&cs=tinysrgb&w=600&h=420&fit=crop",
     specs: {
       weight: "4U (Ave.83g)",
       balance: "Head Heavy",
@@ -61,6 +62,7 @@ export const listings = [
     series: "Nanoray Series",
     brand: "Yonex",
     price: "$230",
+    image: "https://images.unsplash.com/photo-1708312604109-16c0be9326cd?w=600&h=420&auto=format&fit=crop&q=80",
     specs: {
       weight: "3U (Ave.88g)",
       balance: "Head Light",
@@ -79,6 +81,7 @@ export const listings = [
     series: "Arcsaber Series",
     brand: "Victor",
     price: "$250",
+    image: "https://images.pexels.com/photos/6307230/pexels-photo-6307230.jpeg?auto=compress&cs=tinysrgb&w=600&h=420&fit=crop",
     specs: {
       weight: "3U (Ave.88g)",
       balance: "Even Balance",
@@ -97,6 +100,7 @@ export const listings = [
     series: "Duora Series",
     brand: "Li-Ning",
     price: "$245",
+    image: "https://images.unsplash.com/photo-1708312604073-90639de903fc?w=600&h=420&auto=format&fit=crop&q=80",
     specs: {
       weight: "3U (Ave.88g)",
       balance: "Even/Head Heavy",
@@ -115,6 +119,7 @@ export const listings = [
     series: "Voltric Series",
     brand: "FZ Forza",
     price: "$240",
+    image: "https://images.unsplash.com/photo-1559309106-ed14040fd35d?w=600&h=420&auto=format&fit=crop&q=80",
     specs: {
       weight: "4U (Ave.83g)",
       balance: "Head Heavy",
@@ -133,6 +138,7 @@ export const listings = [
     series: "Astrox Series",
     brand: "Apacs",
     price: "$255",
+    image: "https://images.unsplash.com/photo-1521537634581-0dced2fee2ef?w=600&h=420&auto=format&fit=crop&q=80",
     specs: {
       weight: "4U (Ave.83g)",
       balance: "Head Heavy",
@@ -151,6 +157,7 @@ export const listings = [
     series: "Astrox Series",
     brand: "Yonex",
     price: "$255",
+    image: "https://images.pexels.com/photos/3660204/pexels-photo-3660204.jpeg?auto=compress&cs=tinysrgb&w=600&h=420&fit=crop",
     specs: {
       weight: "4U (Ave.83g)",
       balance: "Head Heavy",
@@ -169,6 +176,7 @@ export const listings = [
     series: "Nanoflare Series",
     brand: "Victor",
     price: "$240",
+    image: "https://images.unsplash.com/photo-1633313236093-beebdd1a5e80?w=600&h=420&auto=format&fit=crop&q=80",
     specs: {
       weight: "3U (Ave.88g)",
       balance: "Head Light",
@@ -187,6 +195,7 @@ export const listings = [
     series: "Arcsaber Series",
     brand: "Li-Ning",
     price: "$220",
+    image: "https://images.pexels.com/photos/12630113/pexels-photo-12630113.jpeg?auto=compress&cs=tinysrgb&w=600&h=420&fit=crop",
     specs: {
       weight: "4U (Ave.83g)",
       balance: "Even Balance",
@@ -205,6 +214,7 @@ export const listings = [
     series: "Astrox Series",
     brand: "Apacs",
     price: "$270",
+    image: "https://images.pexels.com/photos/8496267/pexels-photo-8496267.jpeg?auto=compress&cs=tinysrgb&w=600&h=420&fit=crop",
     specs: {
       weight: "4U (Ave.83g)",
       balance: "Head Heavy",

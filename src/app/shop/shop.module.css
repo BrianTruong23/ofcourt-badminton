@@ -84,62 +84,75 @@
   color: #fff;
 }
 
-.toolbar {
-  display: flex;
-  align-items: flex-end;
-  gap: 18px;
-  padding: 18px 20px;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-xs);
-  margin-bottom: 30px;
-  flex-wrap: wrap;
+.shopLayout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 40px;
+  align-items: start;
 }
 
-.control {
+.sidebar {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 32px;
+  position: sticky;
+  top: 100px; /* Assuming header height */
 }
 
-.controlLabel {
-  font-size: 0.72rem;
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filterTitle {
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.select {
-  padding: 10px 16px;
-  border: 1px solid var(--border-strong);
-  border-radius: 10px;
-  font-size: 0.92rem;
-  font-weight: 500;
   color: var(--navy);
-  background-color: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.filterOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filterOption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.92rem;
+  color: var(--text-soft);
   cursor: pointer;
-  transition: all 0.2s;
-  min-width: 190px;
+  transition: color 0.2s;
 }
 
-.select:hover {
-  border-color: var(--navy);
+.filterOption:hover {
+  color: var(--navy);
 }
 
-.select:focus {
-  outline: none;
-  border-color: var(--green);
-  box-shadow: 0 0 0 3px var(--green-soft);
+.filterOption input[type="radio"],
+.filterOption input[type="checkbox"] {
+  accent-color: var(--primary);
+  width: 16px;
+  height: 16px;
+}
+
+.resultHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
 }
 
 .resultCount {
-  margin-left: auto;
   color: var(--text-muted);
   font-size: 0.92rem;
   font-weight: 600;
-  padding-bottom: 11px;
 }
 
 .grid {
@@ -171,6 +184,22 @@
   text-decoration: underline;
 }
 
+@media (max-width: 920px) {
+  .shopLayout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .sidebar {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .filterGroup {
+    flex: 1;
+    min-width: 140px;
+  }
+}
+
 @media (max-width: 768px) {
   .header {
     padding: 38px 0;
@@ -178,21 +207,5 @@
   }
   .grid {
     grid-template-columns: 1fr;
-  }
-  .toolbar {
-    gap: 14px;
-  }
-  .control {
-    flex: 1;
-    min-width: 140px;
-  }
-  .select {
-    min-width: 0;
-    width: 100%;
-  }
-  .resultCount {
-    width: 100%;
-    margin-left: 0;
-    padding-bottom: 0;
   }
 }

@@ -1,64 +1,80 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import Hero from '../components/Hero';
 import SectionHeader from '../components/SectionHeader';
 import ListingCard from '../components/ListingCard';
 import CTAButton from '../components/CTAButton';
+import BalanceMeter from '../components/BalanceMeter';
+import RacketFinder from '../components/RacketFinder';
 import { listings, getProductMeta } from './data';
 import styles from './page.module.css';
 
-const sellingPoints = [
+const BRANDS = ['Yonex', 'Victor', 'Li-Ning', 'FZ Forza', 'Apacs', 'Babolat'];
+
+const playStyles = [
   {
-    title: 'Power',
-    text: 'Head-heavy frames that turn your swing into steep, match-ending smashes.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M13 2 L3 14h7l-1 8 10-12h-7z" />
-      </svg>
-    ),
+    key: 'Power',
+    balance: 'head',
+    who: 'Back-court attackers who finish rallies with steep, heavy smashes.',
+    specs: [
+      ['Balance', 'Head-heavy'],
+      ['Shaft', 'Stiff'],
+      ['Weight', '3U-4U'],
+      ['Tension', '24-28 lbs'],
+    ],
+    href: '/shop?style=Power',
   },
   {
-    title: 'Speed',
-    text: 'Aerodynamic, head-light rackets built for fast drives and quick defense.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M2 12h7" /><path d="M2 7h11" /><path d="M2 17h11" />
-        <path d="m16 6 6 6-6 6" />
-      </svg>
-    ),
+    key: 'Speed',
+    balance: 'light',
+    who: 'Doubles players who win with fast drives, flat exchanges, and quick defense.',
+    specs: [
+      ['Balance', 'Head-light'],
+      ['Shaft', 'Stiff'],
+      ['Weight', '4U-5U'],
+      ['Tension', '24-27 lbs'],
+    ],
+    href: '/shop?style=Speed',
   },
   {
-    title: 'Control',
-    text: 'Even-balance frames with a longer shuttle hold for precise placement.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="4" />
-      </svg>
-    ),
+    key: 'Control',
+    balance: 'even',
+    who: 'Net players and tacticians who place the shuttle exactly where they want it.',
+    specs: [
+      ['Balance', 'Even'],
+      ['Shaft', 'Medium-stiff'],
+      ['Weight', '3U-4U'],
+      ['Tension', '23-26 lbs'],
+    ],
+    href: '/shop?style=Control',
   },
   {
-    title: 'Durability',
-    text: 'High-modulus graphite frames from trusted brands, built to last seasons.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5z" />
-      </svg>
-    ),
+    key: 'All-round',
+    balance: 'even',
+    who: 'Improving club players who want one dependable frame for every situation.',
+    specs: [
+      ['Balance', 'Even'],
+      ['Shaft', 'Medium flex'],
+      ['Weight', '4U'],
+      ['Tension', '24-26 lbs'],
+    ],
+    href: '/shop?style=All-Round',
   },
 ];
 
-const categories = [
-  { name: 'Power', desc: 'Smash-focused frames', href: '/shop?style=Power' },
-  { name: 'Speed', desc: 'Fast & aerodynamic', href: '/shop?style=Speed' },
-  { name: 'Control', desc: 'Precision & touch', href: '/shop?style=Control' },
-  { name: 'Lightweight', desc: '4U easy-handling', href: '/shop?weight=Lightweight' },
-  { name: 'Intermediate', desc: 'Stepping up your game', href: '/shop?level=Intermediate' },
-  { name: 'Advanced', desc: 'Competition-ready', href: '/shop?level=Advanced' },
-];
-
-const guarantees = [
+const trust = [
   {
-    title: 'Quality guarantee',
-    text: 'Authentic frames from established brands, inspected before they ship.',
+    title: 'Expert hand stringing',
+    text: 'Pick your string and tension; every racket is strung by hand before it ships.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 4v16M9 4v16M14 4v16M19 4v16" /><path d="M4 8h15M4 13h15M4 18h15" />
+      </svg>
+    ),
+  },
+  {
+    title: '100% authentic frames',
+    text: 'Genuine rackets from Yonex, Victor, Li-Ning and FZ Forza, never marketplace fakes.',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="9" />
@@ -66,8 +82,8 @@ const guarantees = [
     ),
   },
   {
-    title: 'Free shipping over $100',
-    text: 'Fast, tracked delivery — or free local pickup in Tampa, FL.',
+    title: 'Ships ready to play',
+    text: 'Strung, gripped, and match-ready out of the box. Free shipping over $100.',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="1" y="3" width="15" height="13" /><path d="M16 8h4l3 3v5h-7" />
@@ -76,29 +92,80 @@ const guarantees = [
     ),
   },
   {
+    title: 'Beginner to advanced',
+    text: 'Real fitting help by play style, level, and budget. Guidance, not guesswork.',
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+      </svg>
+    ),
+  },
+  {
     title: 'Secure checkout',
-    text: 'Pay safely with PayPal or any major card — no account required.',
+    text: 'Pay safely with PayPal or any major card. No account required to order.',
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
       </svg>
     ),
   },
+];
+
+const guides = [
   {
-    title: 'Expert stringing',
-    text: 'Add your preferred string and tension — strung by hand before dispatch.',
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 3v18h18" /><path d="M7 14l4-4 3 3 5-5" />
-      </svg>
-    ),
+    title: 'How to choose a badminton racket',
+    text: 'Balance, weight, and shaft stiffness, explained in plain language so you can buy with confidence.',
+    read: '6 min read',
+    href: '/guide',
+  },
+  {
+    title: 'Head-heavy vs head-light',
+    text: 'Why the balance point changes everything about your swing, your power, and your defense.',
+    read: '4 min read',
+    href: '/guide',
+  },
+  {
+    title: '4U vs 5U: which weight?',
+    text: 'How a few grams shift the trade-off between power, maneuverability, and control.',
+    read: '3 min read',
+    href: '/guide',
+  },
+  {
+    title: 'Best rackets for fast doubles',
+    text: 'Head-light frames built for flat drives, quick blocks, and lightning defense at the net.',
+    read: '5 min read',
+    href: '/shop?style=Speed',
+  },
+];
+
+const testimonials = [
+  {
+    quote:
+      'The team moved me from an all-round racket to a head-heavy frame and my smashes are noticeably steeper. Stringing was spot on.',
+    name: 'Daniel R.',
+    role: 'Club singles player',
+    avatar: 'https://images.pexels.com/photos/4931356/pexels-photo-4931356.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop',
+  },
+  {
+    quote:
+      'Easy to compare specs without the jargon. Found a light frame for doubles and it arrived strung exactly how I asked.',
+    name: 'Priya S.',
+    role: 'Doubles player',
+    avatar: 'https://images.pexels.com/photos/8007497/pexels-photo-8007497.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop',
+  },
+  {
+    quote:
+      'Genuine frames, fair prices, quick delivery. This is now my go-to shop for rackets and restrings.',
+    name: 'Marcus L.',
+    role: 'Weekend competitor',
+    avatar: 'https://images.unsplash.com/flagged/photo-1572987337507-72aa40cac9e9?w=80&h=80&auto=format&fit=crop&q=80',
   },
 ];
 
 const faqs = [
   {
     q: 'How do I choose the right racket?',
-    a: 'Start with how you play. Power players suit head-heavy frames, fast doubles players prefer head-light and lightweight rackets, and all-court players do best with even balance. Our buying guide walks you through it, and every product page lists the specs that matter.',
+    a: 'Start with how you play. Power players suit head-heavy frames, fast doubles players prefer head-light and lighter rackets, and all-court players do best with even balance. Use the racket finder above, or read the buying guide. Every product page also lists the specs that matter.',
   },
   {
     q: 'Can I customize the string and tension?',
@@ -106,7 +173,7 @@ const faqs = [
   },
   {
     q: 'Which brands do you carry?',
-    a: 'We curate frames from established badminton brands such as Yonex, Victor, and Li-Ning — pro-grade rackets only, never marketplace filler.',
+    a: 'Established badminton brands such as Yonex, Victor, Li-Ning, and FZ Forza. Pro-grade frames only, never marketplace filler.',
   },
   {
     q: 'What are your shipping and return options?',
@@ -114,29 +181,7 @@ const faqs = [
   },
   {
     q: 'Do I need an account to order?',
-    a: 'No. You can browse and check out as a guest. Creating an account simply lets you track orders and reorder faster.',
-  },
-];
-
-// Placeholder testimonials — replace with verified customer reviews before launch.
-const testimonials = [
-  {
-    quote:
-      'The team helped me move from an all-round racket to a head-heavy frame and my smashes are noticeably steeper. Stringing was spot on.',
-    name: 'Daniel R.',
-    role: 'Club singles player',
-  },
-  {
-    quote:
-      'Easy to compare specs without the jargon. Found a lightweight racket for doubles and it arrived strung exactly how I asked.',
-    name: 'Priya S.',
-    role: 'Doubles player',
-  },
-  {
-    quote:
-      'Genuine frames, fair prices, and quick delivery. This is now my go-to shop for rackets and restrings.',
-    name: 'Marcus L.',
-    role: 'Weekend competitor',
+    a: 'No. You can browse and check out as a guest. An account simply lets you track orders and reorder faster.',
   },
 ];
 
@@ -148,59 +193,61 @@ export default function Home() {
     <main className={styles.main}>
       <Hero />
 
-      {/* Selling points */}
-      <section className={styles.section}>
-        <div className={styles.container}>
-          <SectionHeader
-            eyebrow="What to look for"
-            title="Built around how you play"
-            subtitle="Every racket has a job. We make it easy to match the right frame to your game."
-          />
-          <div className={styles.pointsGrid}>
-            {sellingPoints.map((point) => (
-              <div key={point.title} className={styles.pointCard}>
-                <span className={styles.pointIcon} aria-hidden="true">{point.icon}</span>
-                <h3 className={styles.pointTitle}>{point.title}</h3>
-                <p className={styles.pointText}>{point.text}</p>
-              </div>
-            ))}
-          </div>
+      {/* ===== Brand authority ticker ===== */}
+      <div className={styles.brandTicker} aria-hidden="true">
+        <div className={styles.tickerTrack}>
+          {[...BRANDS, ...BRANDS, ...BRANDS, ...BRANDS].map((brand, i) => (
+            <span key={i} className={styles.tickerItem}>{brand}</span>
+          ))}
         </div>
-      </section>
+      </div>
 
-      {/* Categories */}
-      <section className={`${styles.section} ${styles.sectionAlt}`}>
+      {/* ===== Shop by play style ===== */}
+      <section id="play-style" className={styles.section}>
         <div className={styles.container}>
           <SectionHeader
-            eyebrow="Shop by category"
-            title="Find your fit, faster"
-            subtitle="Jump straight to the rackets that match your style and level."
+            eyebrow="Shop by play style"
+            title="Find the frame that fits your game"
+            subtitle="Every racket has a job. Start with how you play, and the specs that matter fall into place."
           />
-          <div className={styles.categoryGrid}>
-            {categories.map((cat) => (
-              <Link key={cat.name} href={cat.href} className={styles.categoryCard}>
-                <div>
-                  <span className={styles.categoryName}>{cat.name}</span>
-                  <span className={styles.categoryDesc}>{cat.desc}</span>
+          <div className={styles.styleGrid}>
+            {playStyles.map((style, i) => (
+              <Link key={style.key} href={style.href} className={styles.styleCard}>
+                <div className={styles.styleTop}>
+                  <span className={styles.styleNum}>{String(i + 1).padStart(2, '0')}</span>
+                  <h3 className={styles.styleName}>{style.key}</h3>
                 </div>
-                <svg className={styles.categoryArrow} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
+                <BalanceMeter balance={style.balance} markerColor="var(--sale-accent)" className={styles.styleMeter} />
+                <p className={styles.styleWho}>{style.who}</p>
+                <dl className={styles.styleSpecs}>
+                  {style.specs.map(([label, value]) => (
+                    <div key={label} className={styles.styleSpecRow}>
+                      <dt>{label}</dt>
+                      <dd>{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <span className={styles.styleLink}>
+                  Shop {style.key}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Featured rackets */}
-      <section className={styles.section}>
+      {/* ===== Featured rackets ===== */}
+      <section className={`${styles.section} ${styles.sectionAlt}`}>
         <div className={styles.container}>
           <div className={styles.featuredHead}>
             <SectionHeader
               eyebrow="Featured rackets"
               title="Player favorites"
-              subtitle="A few standout frames to start your search."
+              subtitle="A few standout frames to start your search, each with the specs that matter."
               align="left"
             />
             <CTAButton href="/shop" variant="secondary" className={styles.viewAll}>
@@ -215,13 +262,104 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Comparison */}
+      {/* ===== Editorial lifestyle section ===== */}
+      <section className={styles.editorialSection} aria-label="Players in action">
+        <div className={styles.editorialGrid}>
+          {/* Main large photo */}
+          <div className={styles.editorialMain}>
+            <Image
+              src="https://images.pexels.com/photos/8007495/pexels-photo-8007495.jpeg?auto=compress&cs=tinysrgb&w=900&h=620&fit=crop"
+              alt="Player mid-rally on an indoor badminton court"
+              fill
+              sizes="(max-width: 768px) 100vw, 60vw"
+              className={styles.editorialPhoto}
+              loading="lazy"
+            />
+            <div className={styles.editorialOverlay}>
+              <span className={styles.editorialEyebrow}>At the court</span>
+              <p className={styles.editorialPull}>
+                Whether you play for fun or compete for points — the right frame changes everything.
+              </p>
+              <CTAButton href="#finder" variant="outlineCream" size="md">
+                Find your frame
+              </CTAButton>
+            </div>
+          </div>
+
+          {/* Side stacked photos */}
+          <div className={styles.editorialSide}>
+            <div className={styles.editorialSideItem}>
+              <Image
+                src="https://images.pexels.com/photos/8795115/pexels-photo-8795115.jpeg?auto=compress&cs=tinysrgb&w=480&h=310&fit=crop"
+                alt="Couple playing badminton outdoors at sunset"
+                fill
+                sizes="(max-width: 768px) 100vw, 40vw"
+                className={styles.editorialPhoto}
+                loading="lazy"
+              />
+              <div className={styles.editorialSideOverlay}>
+                <span>For every player</span>
+              </div>
+            </div>
+            <div className={styles.editorialSideItem}>
+              <Image
+                src="https://images.pexels.com/photos/6878017/pexels-photo-6878017.jpeg?auto=compress&cs=tinysrgb&w=480&h=310&fit=crop"
+                alt="Player preparing to serve — hand holding shuttlecock over racket"
+                fill
+                sizes="(max-width: 768px) 100vw, 40vw"
+                className={styles.editorialPhoto}
+                loading="lazy"
+              />
+              <div className={styles.editorialSideOverlay}>
+                <span>Ready to play</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Racket finder ===== */}
+      <section id="finder" className={styles.finderSection}>
+        <div className={styles.finderLines} aria-hidden="true" />
+        <div className={styles.container}>
+          <div className={styles.finderHead}>
+            <span className={styles.finderEyebrow}>The fitting room</span>
+            <h2 className={styles.finderTitle}>Find your match in four questions</h2>
+            <p className={styles.finderSub}>
+              Answer like you would at the pro-shop counter. We&rsquo;ll match real frames
+              to your game by balance, weight, stiffness, and level.
+            </p>
+          </div>
+          <RacketFinder />
+        </div>
+      </section>
+
+      {/* ===== Trust ===== */}
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <SectionHeader
+            eyebrow="The OfCourt promise"
+            title="A real pro-shop, online"
+          />
+          <div className={styles.trustGrid}>
+            {trust.map((t) => (
+              <div key={t.title} className={styles.trustCard}>
+                <span className={styles.trustIcon} aria-hidden="true">{t.icon}</span>
+                <h3 className={styles.trustTitle}>{t.title}</h3>
+                <p className={styles.trustText}>{t.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Compare ===== */}
       <section className={`${styles.section} ${styles.sectionAlt}`}>
         <div className={styles.container}>
           <SectionHeader
             eyebrow="Compare"
-            title="Not sure which to pick?"
-            subtitle="A side-by-side look at how our top frames differ, so you can choose with confidence."
+            title="Top frames, side by side"
+            subtitle="See how our most popular rackets differ across the specs that change how they play."
           />
           <div className={styles.compareWrap}>
             <table className={styles.compareTable}>
@@ -229,7 +367,7 @@ export default function Home() {
                 <tr>
                   <th>Racket</th>
                   <th>Play style</th>
-                  <th>Level</th>
+                  <th>Balance</th>
                   <th>Weight</th>
                   <th>Best for</th>
                   <th>Price</th>
@@ -244,7 +382,7 @@ export default function Home() {
                       <span className={styles.compareBrand}>{item.brand}</span>
                     </td>
                     <td data-label="Play style">{item.meta.style}</td>
-                    <td data-label="Level">{item.meta.level}</td>
+                    <td data-label="Balance">{item.specs.balance}</td>
                     <td data-label="Weight">{item.specs.weight}</td>
                     <td data-label="Best for">{item.meta.benefit}</td>
                     <td data-label="Price"><strong>{item.price}</strong></td>
@@ -258,46 +396,71 @@ export default function Home() {
               </tbody>
             </table>
           </div>
-          <div className={styles.compareFoot}>
-            <CTAButton href="/guide" variant="outline">Read the buying guide</CTAButton>
-          </div>
         </div>
       </section>
 
-      {/* Guarantees / trust */}
+      {/* ===== Editorial guide ===== */}
       <section className={styles.section}>
         <div className={styles.container}>
-          <SectionHeader
-            eyebrow="Why shop with us"
-            title="Buy with total confidence"
-          />
-          <div className={styles.guaranteeGrid}>
-            {guarantees.map((g) => (
-              <div key={g.title} className={styles.guaranteeCard}>
-                <span className={styles.guaranteeIcon} aria-hidden="true">{g.icon}</span>
-                <h3 className={styles.guaranteeTitle}>{g.title}</h3>
-                <p className={styles.guaranteeText}>{g.text}</p>
-              </div>
+          <div className={styles.featuredHead}>
+            <SectionHeader
+              eyebrow="Knowledge"
+              title="From the stringer's bench"
+              subtitle="Plain-spoken advice from people who actually play. No SEO filler."
+              align="left"
+            />
+            <CTAButton href="/guide" variant="secondary" className={styles.viewAll}>
+              Read the full guide
+            </CTAButton>
+          </div>
+          <div className={styles.guideGrid}>
+            {guides.map((g, i) => (
+              <Link key={g.title} href={g.href} className={styles.guideCard}>
+                <span className={styles.guideIndex}>{String(i + 1).padStart(2, '0')}</span>
+                <div className={styles.guideBody}>
+                  <span className={styles.guideKicker}>Guide &middot; {g.read}</span>
+                  <h3 className={styles.guideTitle}>{g.title}</h3>
+                  <p className={styles.guideText}>{g.text}</p>
+                  <span className={styles.guideLink}>
+                    Read guide
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* ===== Testimonials ===== */}
       <section className={`${styles.section} ${styles.sectionAlt}`}>
         <div className={styles.container}>
-          <SectionHeader
-            eyebrow="From the community"
-            title="Loved by players"
-          />
+          <SectionHeader eyebrow="From the community" title="Players who found their frame" />
           <div className={styles.testimonialGrid}>
             {testimonials.map((t) => (
               <figure key={t.name} className={styles.testimonialCard}>
                 <span className={styles.quoteMark} aria-hidden="true">&ldquo;</span>
                 <blockquote className={styles.testimonialQuote}>{t.quote}</blockquote>
                 <figcaption className={styles.testimonialMeta}>
-                  <span className={styles.testimonialName}>{t.name}</span>
-                  <span className={styles.testimonialRole}>{t.role}</span>
+                  {t.avatar && (
+                    <div className={styles.testimonialAvatar}>
+                      <Image
+                        src={t.avatar}
+                        alt={t.name}
+                        width={44}
+                        height={44}
+                        className={styles.avatarImg}
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+                  <div>
+                    <span className={styles.testimonialName}>{t.name}</span>
+                    <span className={styles.testimonialRole}>{t.role}</span>
+                  </div>
                 </figcaption>
               </figure>
             ))}
@@ -305,7 +468,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* ===== FAQ ===== */}
       <section className={styles.section}>
         <div className={styles.container}>
           <SectionHeader eyebrow="FAQ" title="Questions, answered" />
@@ -320,7 +483,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* ===== Final CTA ===== */}
       <section className={styles.ctaBanner}>
         <div className={styles.container}>
           <div className={styles.ctaInner}>
@@ -329,8 +492,8 @@ export default function Home() {
               Browse the collection, customize your strings, and check out in minutes.
             </p>
             <div className={styles.ctaActions}>
-              <CTAButton href="/shop" variant="accent" size="lg">Shop Rackets</CTAButton>
-              <CTAButton href="/guide" variant="onDark" size="lg">Find your fit</CTAButton>
+              <CTAButton href="/shop" variant="accent" size="lg">Shop rackets</CTAButton>
+              <CTAButton href="#finder" variant="onDark" size="lg">Find your match</CTAButton>
             </div>
           </div>
         </div>

@@ -1,9 +1,9 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   margin-bottom: 44px;
-  max-width: 620px;
+  max-width: 640px;
 }
 
 .center {
@@ -21,21 +21,34 @@
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  font-size: 0.78rem;
+  gap: 10px;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--green-dark);
+  color: var(--sale-accent);
+}
+
+/* Left-aligned eyebrow gets a leading rule mark */
+.left .eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  flex-shrink: 0;
 }
 
 .title {
-  font-size: clamp(1.8rem, 3.6vw, 2.5rem);
-  line-height: 1.12;
+  font-size: clamp(1.85rem, 3.8vw, 2.65rem);
+  line-height: 1.1;
   color: var(--navy);
+  letter-spacing: -0.015em;
 }
 
 .subtitle {
-  font-size: 1.06rem;
+  font-size: 1.05rem;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.65;
+  max-width: 560px;
 }

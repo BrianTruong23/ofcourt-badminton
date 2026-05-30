@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useCart } from '../context/CartContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -54,16 +55,26 @@ export default function ListingDetails({ listing }) {
           <div className={styles.gallery}>
             <div
               className={styles.stage}
-              style={{
-                background: `radial-gradient(70% 70% at 50% 35%, ${listing.color}1a, transparent 70%), linear-gradient(160deg, var(--cream-card), var(--cream-deep))`,
-              }}
+              style={
+                !listing.image
+                  ? { background: `radial-gradient(70% 70% at 50% 35%, ${listing.color}1a, transparent 70%), linear-gradient(160deg, var(--cream-card), var(--cream-deep))` }
+                  : undefined
+              }
             >
               <span className={styles.galleryTag}>{listing.brand}</span>
-              <RacketIcon color={listing.color || '#102A43'} className={styles.stageRacket} />
+              {listing.image ? (
+                <Image
+                  src={listing.image.replace('w=600&h=420', 'w=900&h=640')}
+                  alt={listing.title}
+                  fill
+                  sizes="(max-width: 960px) 100vw, 50vw"
+                  className={styles.stagePhoto}
+                  priority
+                />
+              ) : (
+                <RacketIcon color={listing.color || '#102A43'} className={styles.stageRacket} />
+              )}
             </div>
-            <p className={styles.galleryNote}>
-              Product photography placeholder — replace with real racket images.
-            </p>
           </div>
 
           {/* Buy box */}

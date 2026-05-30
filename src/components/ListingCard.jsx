@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { getProductMeta } from '../app/data';
@@ -37,7 +38,19 @@ export default function ListingCard({ listing }) {
       >
         <span className={styles.levelTag}>{meta.level}</span>
         {listing.brand && <span className={styles.brand}>{listing.brand}</span>}
-        <RacketIcon color={listing.color || '#102A43'} className={styles.racketMark} />
+
+        {listing.image ? (
+          <Image
+            src={listing.image}
+            alt={listing.title}
+            fill
+            sizes="(max-width: 560px) 100vw, (max-width: 960px) 50vw, 33vw"
+            className={styles.productPhoto}
+            loading="lazy"
+          />
+        ) : (
+          <RacketIcon color={listing.color || '#102A43'} className={styles.racketMark} />
+        )}
       </Link>
 
       <div className={styles.content}>
@@ -53,10 +66,23 @@ export default function ListingCard({ listing }) {
         <p className={styles.benefit}>{meta.benefit}</p>
 
         <ul className={styles.specs}>
-          {[listing.specs?.weight, listing.specs?.balance].filter(Boolean).map((spec) => (
-            <li key={spec} className={styles.specChip}>{spec}</li>
-          ))}
+          {[listing.specs?.weight, listing.specs?.balance, listing.specs?.stiffness]
+            .filter(Boolean)
+            .map((spec) => (
+              <li key={spec} className={styles.specChip}>{spec}</li>
+            ))}
         </ul>
+
+        {listing.specs?.tension && (
+          <p className={styles.tension}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M4 4v16" />
+              <path d="M4 7h16M4 12h16M4 17h16" />
+              <path d="M9 4v16M14 4v16M20 4v16" />
+            </svg>
+            Strings {listing.specs.tension}
+          </p>
+        )}
 
         <div className={styles.ratingRow}>
           {meta.rating ? (

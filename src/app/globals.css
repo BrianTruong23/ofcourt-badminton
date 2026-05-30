@@ -1,33 +1,58 @@
 :root {
-  /* ===== Brand palette: warm, premium badminton ecommerce ===== */
-  --navy: #102A43;
-  --navy-800: #16395a;
-  --navy-700: #1f4a72;
-  --navy-600: #2c5d8a;
-  --navy-soft: rgba(16, 42, 67, 0.06);
+  /* =====================================================================
+     Brand: "Premium neighborhood badminton pro shop"
+     Court-green identity, warm cream surfaces, navy ink.
+     Orange is intentionally SPARSE: amber (--accent) for tiny highlights,
+     burnt orange (--sale-accent) for sale/alert moments only.
+     ===================================================================== */
 
-  --cream: #F7F3EA;
-  --cream-deep: #EFE8D8;
-  --cream-card: #FCFAF4;
+  /* ---- Core brand tokens ---- */
+  --primary: #0A221C;        /* Rich, deep editorial court green */
+  --primary-hover: #071713;
+  --primary-soft: rgba(10, 34, 28, 0.08);
 
-  --charcoal: #1F2933;
-  --text: #1F2933;
-  --text-soft: #3E4C59;
-  --text-muted: #616E7C;
-  --text-faint: #8A94A0;
+  --accent: #E6A728;         /* warm amber — sparse highlights only */
+  --accent-soft: rgba(230, 167, 40, 0.16);
+  --sale-accent: #B85B12;    /* burnt orange — sale prices / alerts only */
+  --sale-soft: rgba(184, 91, 18, 0.12);
 
-  --green: #6F8F72;
-  --green-dark: #5A7A5D;
-  --green-soft: rgba(111, 143, 114, 0.14);
+  --muted: #647069;
 
-  --orange: #D97706;
-  --orange-dark: #B45309;
-  --orange-soft: rgba(217, 119, 6, 0.12);
+  /* ---- Ink (text + headings) ---- */
+  --navy: #0B1926;           /* Deeper, near-black navy for stark contrast */
+  --navy-800: #102436;
+  --navy-700: #163047;
+  --navy-600: #1E4261;
+  --navy-soft: rgba(11, 25, 38, 0.06);
 
-  --gold: #D9A406;
+  /* ---- Warm cream surfaces ---- */
+  --cream: #F5F3EC;          /* Cooler, editorial off-white / newsprint */
+  --cream-deep: #EBE5DB;
+  --cream-card: #FAF9F5;
 
-  --border: #E7DFCD;
-  --border-strong: #D8CDB5;
+  --charcoal: #182026;
+  --text: #162635;
+  --text-soft: #424D58;
+  --text-muted: #627180;
+  --text-faint: #929EA8;
+
+  /* ---- Court green family (legacy --green-* now = brand green) ---- */
+  --green: #0A221C;
+  --green-dark: #071713;
+  --green-mid: #1A473D;
+  --green-soft: rgba(10, 34, 28, 0.08);
+
+  /* ---- Legacy --orange-* now drives PRIMARY (green) CTAs.
+     Kept as aliases so existing components recolor in one place.
+     Use --accent / --sale-accent for real warm accents. ---- */
+  --orange: var(--primary);
+  --orange-dark: var(--primary-hover);
+  --orange-soft: var(--primary-soft);
+
+  --gold: var(--accent);
+
+  --border: #D9C7A7;
+  --border-strong: #C9B68F;
   --border-navy: rgba(16, 42, 67, 0.12);
 
   --white: #ffffff;
@@ -35,8 +60,9 @@
   /* Surfaces */
   --bg: var(--cream);
   --bg-elevated: var(--cream-deep);
-  --surface: var(--white);
+  --surface: #FFFDF7;
   --surface-muted: var(--cream-card);
+  --chip-bg: #EFE5D2;
   --bg-card: var(--white);
   --bg-card-hover: var(--cream-card);
 
@@ -62,13 +88,12 @@
   --ink-muted: var(--text-muted);
   --ink-faint: var(--text-faint);
   --cream-warm: var(--cream-deep);
-  --brand: var(--navy);
-  --brand-dark: var(--charcoal);
-  --brand-light: var(--navy-600);
-  --brand-soft: var(--navy-soft);
-  --primary: var(--navy);
-  --primary-dark: var(--charcoal);
-  --secondary: var(--green);
+  --brand: var(--primary);
+  --brand-dark: var(--primary-hover);
+  --brand-light: var(--green-mid);
+  --brand-soft: var(--primary-soft);
+  --primary-dark: var(--primary-hover);
+  --secondary: var(--accent);
   --background: var(--cream);
   --text-light: var(--text-muted);
   --graphite-950: #0d2236;
@@ -76,19 +101,19 @@
   --graphite-800: var(--navy-800);
   --graphite-700: var(--text-soft);
   --graphite-600: var(--text-muted);
-  --emerald-700: var(--green-dark);
-  --emerald-600: var(--green-dark);
-  --emerald-500: var(--green);
-  --emerald-400: var(--green);
+  --emerald-700: var(--primary-hover);
+  --emerald-600: var(--primary);
+  --emerald-500: var(--green-mid);
+  --emerald-400: var(--green-mid);
   --lime: var(--green);
-  --accent-violet: var(--green-dark);
-  --accent-violet-light: var(--green);
-  --accent-violet-soft: var(--green-soft);
-  --accent-cyan: var(--navy-600);
-  --accent-cyan-soft: var(--navy-soft);
+  --accent-violet: var(--primary);
+  --accent-violet-light: var(--green-mid);
+  --accent-violet-soft: var(--primary-soft);
+  --accent-cyan: var(--green-mid);
+  --accent-cyan-soft: var(--green-soft);
   --accent-lime: var(--green);
   --accent-lime-soft: var(--green-soft);
-  --accent-pink: var(--orange);
+  --accent-pink: var(--sale-accent);
   --shadow-glow: var(--shadow-md);
 }
 
@@ -142,7 +167,7 @@ img {
 }
 
 :focus-visible {
-  outline: 2px solid var(--orange);
+  outline: 2px solid var(--primary);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -158,4 +183,9 @@ img {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }

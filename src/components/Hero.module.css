@@ -1,257 +1,453 @@
+/* =====================================================================
+   Hero — Premium pro-shop opener.
+   Dark forest-green canvas. Warm cream type. Amber accents.
+   Feels like walking into a serious sports equipment atelier.
+   ===================================================================== */
+
 .hero {
   position: relative;
-  background:
-    radial-gradient(80% 120% at 100% 0%, rgba(111, 143, 114, 0.1), transparent 55%),
-    var(--cream);
+  background: var(--cream);
+  background-image: 
+    radial-gradient(circle at 90% 10%, var(--cream-deep) 0%, transparent 60%),
+    radial-gradient(circle at 10% 90%, var(--sale-soft) 0%, transparent 50%);
   overflow: hidden;
 }
 
+/* Faint badminton court backdrop — very subtle on dark bg */
+.courtLines {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  height: calc(100% + 80px);
+  width: auto;
+  color: var(--accent); /* Warm amber lines for a playful, cozy vibe */
+  opacity: 0.15;
+  pointer-events: none;
+}
+
 .inner {
+  position: relative;
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 72px 24px 84px;
+  padding: 96px 24px 72px;
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 56px;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 64px;
   align-items: center;
 }
 
+/* ===== Editorial copy ===== */
 .copy {
-  max-width: 560px;
+  max-width: 590px;
 }
 
-.eyebrow {
-  display: inline-flex;
+.meta {
+  display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 7px 15px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--green-dark);
-  background: var(--green-soft);
-  border-radius: var(--radius-pill);
+  gap: 12px;
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
-.eyebrowDot {
-  width: 7px;
-  height: 7px;
+.metaBrand {
+  color: var(--accent);
+}
+
+.metaDot {
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  background: var(--green);
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.metaPlace {
+  color: var(--text-muted);
 }
 
 .title {
-  margin-top: 22px;
-  font-size: clamp(2.6rem, 5.2vw, 4rem);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  font-size: clamp(3.1rem, 6.4vw, 5.4rem);
+  line-height: 0.97;
+  letter-spacing: -0.03em;
   color: var(--navy);
 }
 
 .titleAccent {
-  color: var(--orange);
   font-style: italic;
+  color: var(--primary);
+  display: block;
 }
 
 .subtitle {
-  margin-top: 22px;
-  font-size: 1.12rem;
-  line-height: 1.65;
+  margin-top: 28px;
+  font-size: 1.1rem;
+  line-height: 1.72;
   color: var(--text-soft);
   max-width: 500px;
 }
 
 .actions {
-  margin-top: 32px;
+  margin-top: 36px;
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
 }
 
-.trustRow {
-  margin-top: 36px;
-  padding-top: 28px;
+.brandStrip {
+  margin-top: 34px;
+  padding-top: 22px;
   border-top: 1px solid var(--border);
-  list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 22px;
+  align-items: baseline;
+  gap: 10px;
 }
 
-.trustItem {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: var(--text-soft);
+.brandLabel {
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
 }
 
-.trustIcon {
-  color: var(--green-dark);
-  display: inline-flex;
-}
-
-/* ===== Visual / showcase ===== */
-.visual {
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-
-.showcaseCard {
-  position: relative;
-  width: 100%;
-  max-width: 380px;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
-}
-
-.showcaseTag {
-  position: absolute;
-  top: 18px;
-  left: 18px;
-  z-index: 2;
-  font-size: 0.72rem;
+.brandNames {
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.03em;
   color: var(--navy);
-  background: var(--cream);
-  border: 1px solid var(--border-strong);
-  padding: 6px 12px;
-  border-radius: var(--radius-pill);
+  font-size: 0.88rem;
 }
 
-.showcaseStage {
-  height: 320px;
+/* ===== Product spec feature — magazine column ===== */
+.feature {
+  position: relative;
+  padding-left: 56px;
+  border-left: 1px solid var(--border);
+}
+
+.stage {
+  position: relative;
+  height: 380px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--cream-deep);
+}
+
+/* Real action photo filling the stage */
+.featurePhoto {
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* Subtle gradient vignette at bottom so spec text is readable */
+.stageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 40%,
+    rgba(10, 34, 28, 0.25) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.featureKicker {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  z-index: 2;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(11, 40, 32, 0.55);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(6px);
+}
+
+/* ===== Typographic spec ledger — printed spec sheet feel ===== */
+.ledger {
+  margin-top: 26px;
+}
+
+.ledgerHead {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background:
-    radial-gradient(70% 70% at 50% 35%, rgba(16, 42, 67, 0.06), transparent 70%),
-    linear-gradient(160deg, var(--cream-card), var(--cream-deep));
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
   border-bottom: 1px solid var(--border);
 }
 
-.showcaseRacket {
-  height: 270px;
-  width: auto;
-  filter: drop-shadow(0 16px 28px rgba(16, 42, 67, 0.18));
-}
-
-.showcaseInfo {
-  padding: 24px;
-}
-
-.showcaseBrand {
+.ledgerBrand {
+  display: block;
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--green-dark);
+  color: var(--sale-accent);
 }
 
-.showcaseName {
-  margin-top: 5px;
-  font-size: 1.5rem;
-  color: var(--navy);
-}
-
-.showcaseChips {
-  margin-top: 14px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-}
-
-.chip {
-  font-size: 0.76rem;
-  font-weight: 600;
-  color: var(--text-soft);
-  background: var(--cream-deep);
-  border: 1px solid var(--border);
-  padding: 5px 11px;
-  border-radius: var(--radius-pill);
-}
-
-.showcaseFoot {
-  margin-top: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.showcasePrice {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--navy);
-  font-family: var(--font-display), Georgia, serif;
-}
-
-.floatBadge {
-  position: absolute;
-  bottom: -18px;
-  left: -10px;
-  background: var(--navy);
-  color: var(--cream);
-  padding: 16px 20px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-md);
-  text-align: center;
-}
-
-.floatBadgeNum {
-  display: block;
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 1.7rem;
-  font-weight: 600;
-  line-height: 1;
-  color: var(--cream);
-}
-
-.floatBadgeLabel {
+.ledgerModel {
   display: block;
   margin-top: 4px;
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  color: rgba(247, 243, 234, 0.7);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.52rem;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.05;
 }
 
+.ledgerPrice {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.52rem;
+  font-weight: 600;
+  color: var(--navy);
+  white-space: nowrap;
+}
+
+.ledgerBalance {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.ledgerKey {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.ledgerMeter {
+  width: 92px;
+  height: auto;
+  color: var(--border-strong);
+}
+
+.ledgerVal {
+  margin-left: auto;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.ledgerRows {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.ledgerRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 0 4px;
+}
+
+.ledgerRow dt {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.ledgerRow dd {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.ledgerLink {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent);
+  transition: gap 0.2s ease;
+}
+
+.ledgerLink:hover {
+  gap: 13px;
+}
+
+/* ===== Play style contents bar — anchored at base of dark hero ===== */
+.playRail {
+  position: relative;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 24px 28px;
+}
+
+.railHeading {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 20px 0 14px;
+  border-top: 1px solid var(--border);
+}
+
+.railItems {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: var(--shadow-xs);
+}
+
+.railItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 22px;
+  border-right: 1px solid var(--border);
+  position: relative;
+  transition: background 0.2s ease;
+}
+
+.railItem:last-child {
+  border-right: none;
+}
+
+.railItem:hover {
+  background: var(--cream-card);
+}
+
+.railNum {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--green-mid);
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.railText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.railName {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.22rem;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.05;
+}
+
+.railNote {
+  font-size: 0.82rem;
+  color: var(--text-soft);
+}
+
+.railArrow {
+  margin-left: auto;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.railItem:hover .railArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 920px) {
   .inner {
     grid-template-columns: 1fr;
-    gap: 48px;
-    padding: 52px 24px 64px;
+    gap: 44px;
+    padding: 64px 24px 48px;
   }
+
   .copy {
     max-width: none;
   }
-  .visual {
-    order: -1;
+
+  .feature {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid rgba(250, 247, 239, 0.1);
+    padding-top: 38px;
+    max-width: 460px;
   }
-  .floatBadge {
-    left: auto;
-    right: 8px;
+
+  .courtLines {
+    opacity: 0.035;
+  }
+
+  .railItems {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .railItem:nth-child(2) {
+    border-right: none;
+  }
+
+  .railItem:nth-child(1),
+  .railItem:nth-child(2) {
+    border-bottom: 1px solid rgba(250, 247, 239, 0.1);
   }
 }
 
 @media (max-width: 560px) {
+  .inner {
+    padding: 52px 20px 38px;
+  }
+
+  .title {
+    font-size: clamp(2.5rem, 8vw, 3.1rem);
+  }
+
+  .titleAccent {
+    display: inline;
+  }
+
   .actions {
     flex-direction: column;
     align-items: stretch;
   }
-  .trustRow {
-    gap: 14px;
+
+  .stage {
+    height: 300px;
   }
-  .showcaseStage {
-    height: 260px;
+
+  .featureRacket {
+    height: 250px;
   }
-  .showcaseRacket {
-    height: 220px;
+
+  .ledgerRows {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .railItems {
+    grid-template-columns: 1fr;
+  }
+
+  .railItem {
+    border-right: none;
+    border-bottom: 1px solid rgba(250, 247, 239, 0.1);
+  }
+
+  .railItem:last-child {
+    border-bottom: none;
   }
 }
