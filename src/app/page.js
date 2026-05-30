@@ -262,62 +262,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Editorial lifestyle section ===== */}
-      <section className={styles.editorialSection} aria-label="Players in action">
-        <div className={styles.editorialGrid}>
-          {/* Main large photo */}
-          <div className={styles.editorialMain}>
-            <Image
-              src="https://images.pexels.com/photos/8007495/pexels-photo-8007495.jpeg?auto=compress&cs=tinysrgb&w=900&h=620&fit=crop"
-              alt="Player mid-rally on an indoor badminton court"
-              fill
-              sizes="(max-width: 768px) 100vw, 60vw"
-              className={styles.editorialPhoto}
-              loading="lazy"
-            />
-            <div className={styles.editorialOverlay}>
-              <span className={styles.editorialEyebrow}>At the court</span>
-              <p className={styles.editorialPull}>
-                Whether you play for fun or compete for points — the right frame changes everything.
-              </p>
-              <CTAButton href="#finder" variant="outlineCream" size="md">
-                Find your frame
-              </CTAButton>
-            </div>
-          </div>
-
-          {/* Side stacked photos */}
-          <div className={styles.editorialSide}>
-            <div className={styles.editorialSideItem}>
-              <Image
-                src="https://images.pexels.com/photos/8795115/pexels-photo-8795115.jpeg?auto=compress&cs=tinysrgb&w=480&h=310&fit=crop"
-                alt="Couple playing badminton outdoors at sunset"
-                fill
-                sizes="(max-width: 768px) 100vw, 40vw"
-                className={styles.editorialPhoto}
-                loading="lazy"
-              />
-              <div className={styles.editorialSideOverlay}>
-                <span>For every player</span>
-              </div>
-            </div>
-            <div className={styles.editorialSideItem}>
-              <Image
-                src="https://images.pexels.com/photos/6878017/pexels-photo-6878017.jpeg?auto=compress&cs=tinysrgb&w=480&h=310&fit=crop"
-                alt="Player preparing to serve — hand holding shuttlecock over racket"
-                fill
-                sizes="(max-width: 768px) 100vw, 40vw"
-                className={styles.editorialPhoto}
-                loading="lazy"
-              />
-              <div className={styles.editorialSideOverlay}>
-                <span>Ready to play</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ===== Racket finder ===== */}
       <section id="finder" className={styles.finderSection}>
         <div className={styles.finderLines} aria-hidden="true" />
